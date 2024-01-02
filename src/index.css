@@ -11,3 +11,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* .css-11b3ww9-MuiPaper-root-MuiAppBar-root {
+
+  padding-right: 0px !important;
+  overflow:hidden;
+  } */
+
+  html {
+    width: 100vw;
+}
+::-webkit-scrollbar { 
+  display:none; 
+  
+   
+  } 
+
+  
+
+
+/* html {
+  overflow-y: scroll;
+ }
+ 
+ :root {
+   overflow-y: auto;
+   overflow-x: hidden;
+ }
+ 
+ :root body {
+   position: absolute;
+ }
+ 
+ body {
+  width: 100vw;
+  overflow: hidden;
+ } */

@@ -1,9 +1,9 @@
 import { Image } from "./image";
 import React from "react";
 
-export const Gallery = (props) => {
+export const Industries = (props) => {
   return (
-    <div id="portfolio" className="text-center">
+    <div id="industries" className="text-center">
       <div className="container">
         <div className="section-title">
           <h2>Industries We Serve</h2>

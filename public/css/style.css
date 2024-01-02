@@ -76,7 +76,8 @@ hr {
   transition: all 0.8s;
 }
 #menu.navbar-default {
-  background-color: #fff;
+  background-color:black;
+  
   border-color: rgba(231, 231, 231, 0);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
@@ -87,17 +88,17 @@ hr {
   color: #333;
   text-transform: uppercase;
 }
-#menu.navbar-default .navbar-nav > li > a {
+#menu.navbar-default .navbar-nav > li > a,Link {
   font-family: "Lato", sans-serif;
   text-transform: uppercase;
-  color: #555;
+  color: white;
   font-size: 15px;
   font-weight: 400;
   padding: 8px 2px;
   border-radius: 0;
   margin: 9px 20px 0;
 }
-#menu.navbar-default .navbar-nav > li > a:after {
+#menu.navbar-default .navbar-nav > li > a:after,Link:after {
   display: block;
   position: absolute;
   left: 0;
@@ -309,7 +310,7 @@ header .intro-text {
 }
 /* Services Section */
 #services {
-  padding: 100px 0;
+  padding:100px 0;
   background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
   color: #fff;
 }
