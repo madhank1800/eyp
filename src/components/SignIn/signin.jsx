@@ -11,7 +11,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signInApi } from '../../apis/authApi.jsx';
+
 function Copyright(props) {
   return (
     <Typography
@@ -34,14 +36,47 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-const SignIn = (props) => {
-  const handleSubmit = (event) => {
+const SignIn = ({onSignIn}) => {
+  //console.log("props",onSignIn );
+   const navigate = useNavigate();
+
+
+
+
+  const handleSubmit =async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+  
+
+    let dataToSent={
+      email: data.get("email"),
+      password: data.get("password"),
+    }
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    try {
+      const responses = await signInApi(dataToSent);
+      // const responses =await  axios.post(
+      //  "http://localhost:8080/api/user/login",
+      //  dataToSent
+     // );
+      console.log("response", responses);
+      if (responses.role === "user" || responses.role === "admin" || responses.role === "hr") {
+       
+       
+      await  onSignIn();
+        
+        navigate('/dashboard');
+      }
+  
+    } catch (error) {
+      throw new Error(error);
+}
+
+
   };
 
   return (

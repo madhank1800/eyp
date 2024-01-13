@@ -11,6 +11,9 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignIn from "./components/SignIn/signin";
 import Home from "./components/Home/home";
+import PrivateRoute from "./components/PrivateRoute/privateRoute";
+//import dashboard from "./components/Dashboard/dashboard";
+import Dashboard from "./components/Dashboard/dashboard";
 //import { AppBar, Toolbar } from "@mui/material";
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
@@ -19,6 +22,15 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 
 const App = () => {
   const [landingPageData, setLandingPageData] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleSignIn = () => {
+    // Set isAuthenticated to true after successful sign-in
+    setIsAuthenticated(true);
+      console.log(isAuthenticated);
+  }
+    console.log(isAuthenticated);
+
   useEffect(() => {
     setLandingPageData(JsonData);
   }, []);
@@ -28,14 +40,17 @@ const App = () => {
       <Navigation />
       <Routes>
         <Route path="/" exact Component={Home} />
-        <Route path="/services" render={(props) => <Services {...props} />} />
-        <Route
-          path="/signin"
-          render={(props) => <SignIn {...props}  />}
-          Component={SignIn}
-        />
+        <Route path="/services" render={(props) => <Services {...props} />} />     
+  <Route
+    path="/signin"
+    element={<SignIn onSignIn={handleSignIn} />}
+  />
+  <Route
+    path="/dashboard"
+    element={<PrivateRoute isAuthenticated={isAuthenticated} element={<Dashboard />} />}/>
       </Routes>
     </Router>
+
   );
 };
 
