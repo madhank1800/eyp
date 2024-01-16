@@ -3,16 +3,20 @@ import logo from "../../assests/images/eyp02.jpeg";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 //import { Popover } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import  { Typography} from "@mui/material";
 import { AppBar } from "@mui/material";
 import { Toolbar } from "@mui/material";
-import JsonData from '../../data/data.json'
+import JsonData from "../../data/data.json";
+import { useSelector } from "react-redux";
 // import {Button} from "@mui/material";
 //import {Link} from "@mui/material";
 export const Navigation = (props) => {
+  const navigate = useNavigate();
+  const data = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const token = localStorage.getItem("token");
+  console.log(token);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -23,7 +27,10 @@ export const Navigation = (props) => {
     setAnchorEl(null);
     // window.location.href = "/services";
   };
-
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
   return (
     <>
       <nav
@@ -101,7 +108,13 @@ export const Navigation = (props) => {
                 </a>
               </li>
               <li>
-                <Link to={{pathname:"/signin" ,state:JsonData}}>Sign In</Link>
+                {token == null ? (
+                  <Link to={{ pathname: "/signin", state: JsonData }}>
+                    Sign In
+                  </Link>
+                ) : (
+                  <a onClick={handleLogout}>Sign out</a>
+                )}
               </li>
             </ul>
           </div>
@@ -126,32 +139,6 @@ export const Navigation = (props) => {
         <MenuItem onClick={handleClose}>service 5</MenuItem>
         <MenuItem onClick={handleClose}>service 6</MenuItem>
       </Menu>
-
-      {/* <Popover
-                  id="services-menu"
-                  anchorEl={state.anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  onMouseEnter= {enterMenu}
-                  onMouseLeave= {leaveMenu}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                  }}
-                >
-                  <Typography sx={{ p: 2 }}>
-                    <MenuItem component={Link} to="/services" onClick={handleClose}>
-                      Service 1
-                    </MenuItem>
-                    <MenuItem component={Link} to="/services" onClick={handleClose}>
-                      Service 2
-                    </MenuItem>
-                  </Typography>
-                </Popover> */}
     </>
   );
 };

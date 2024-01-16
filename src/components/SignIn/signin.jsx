@@ -12,7 +12,16 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-import { signInApi } from '../../apis/authApi.jsx';
+import { signInApi } from "../../apis/authApi.jsx";
+import "./styles.css";
+import { makeStyles } from "@mui/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAsync } from "../../reducers/userReducer.jsx";
+const useStyles = makeStyles((theme) => ({
+  font: {
+    fontSize: "15px",
+  },
+}));
 
 function Copyright(props) {
   return (
@@ -23,7 +32,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="http://localhost:3000/">
         EYS
       </Link>{" "}
       {new Date().getFullYear()}
@@ -36,52 +45,54 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-const SignIn = ({onSignIn}) => {
+const SignIn = ({ onSignIn }) => {
   //console.log("props",onSignIn );
-   const navigate = useNavigate();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state);
 
-
-
-
-  const handleSubmit =async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-  
 
-    let dataToSent={
+    let dataToSent = {
       email: data.get("email"),
       password: data.get("password"),
-    }
+    };
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
 
     try {
-      const responses = await signInApi(dataToSent);
-      // const responses =await  axios.post(
-      //  "http://localhost:8080/api/user/login",
-      //  dataToSent
-     // );
-      console.log("response", responses);
-      if (responses.role === "user" || responses.role === "admin" || responses.role === "hr") {
-       
-       
-      await  onSignIn();
-        
-        navigate('/dashboard');
-      }
-  
+      dispatch(loginAsync(dataToSent)).then(async(res) => {
+        console.log(res)
+        if (res.payload) {
+          await  onSignIn();
+          localStorage.setItem("token",res.payload.token)
+          navigate("/dashboard");
+        }
+      });
+      // console.log(currentUser);
+      // const responses = await signInApi(dataToSent);
+      //       if (
+      //   responses.role === "user" ||
+      //   responses.role === "admin" ||
+      //   responses.role === "hr"
+      // ) {
+      //   await onSignIn();
+
+      //   navigate("/dashboard");
+      // }
     } catch (error) {
       throw new Error(error);
-}
-
-
+    }
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="md" style={{marginTop:"100px"}} >
+      <Container component="main" maxWidth="md" style={{ marginTop: "100px" }}>
         <CssBaseline />
         <Box
           sx={{
@@ -94,9 +105,9 @@ const SignIn = ({onSignIn}) => {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          {/* <Typography component="h1" variant="h2">
             Sign in
-          </Typography>
+          </Typography> */}
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -111,6 +122,7 @@ const SignIn = ({onSignIn}) => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              className={classes.font}
               autoFocus
             />
             <TextField
@@ -129,6 +141,7 @@ const SignIn = ({onSignIn}) => {
             />
             <Button
               type="submit"
+              size="large"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -137,12 +150,12 @@ const SignIn = ({onSignIn}) => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body1">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link to={'/'} variant="body2">
+                <Link to={"/"} variant="body1">
                   {"Go Back"}
                 </Link>
               </Grid>

@@ -1,18 +1,18 @@
-
 import axios from "axios";
+import { config } from "../Config/config";
 
-
-const BASE_URL="http://localhost:8080/api/user/"
 const signInApi = async (userData) => {
-    try {
-        const response = await axios.post(`${BASE_URL}/login`, userData);
-        console.log("res::", response.data);
-        return response.data;
-    } catch (error) {
-        throw new Error(error);
-    }
-}
+  try {
+    const response = await axios.post(
+      `${config.BASE_URL}${config.login}`,
+      userData
+    );
+    console.log("res::", response.data);
+    // localStorage.setItem("token",response.data.token)
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
-export {
-    signInApi
-}
+export { signInApi };
