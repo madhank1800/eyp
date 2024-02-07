@@ -1,11 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { signInApi } from "../apis/authApi";
+import { signInApi, fetchAllUserApi } from "../apis/authApi";
 
 export const loginAsync = createAsyncThunk(
   "auth/loginAsync",
   async (credentials) => {
     // Simulate an API call (replace with actual API call)
     const response = await signInApi(credentials);
+    return response;
+  }
+);
+
+export const fetchAllUserAsync = createAsyncThunk(
+  "auth/fetchAllUserAsync",
+  async () => {
+    const response = await fetchAllUserApi();
     return response;
   }
 );
@@ -17,9 +25,24 @@ const authSlice = createSlice({
     loading: false,
     isAuthenticated: false,
     user: null,
+    allUsers:null,
     error: null,
+    token: null,
   },
   reducers: {
+    login: (state, action) => {
+      state.user = action.payload.user;
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.error = null;
+      state.token = action.payload.token;
+    },
+    setAllUsers: (state, action) => {
+      state.user = action.payload.user;
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.error = null;
+    },
     logoutUser: (state) => {
       state.user = null;
       state.isAuthenticated = false;
@@ -33,12 +56,11 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        console.log(action);
-        console.log(state);
         state.loading = false;
         state.isAuthenticated = true; // Assuming successful login means isAuthenticated is true
         state.user = action.payload; // Assuming action.payload contains user data
         state.error = null; // Reset any previous error
+        state.token = action.payload.token;
 
         // Additional checks for the response structure or error handling if needed
         if (!action.payload || action.payload.error) {
@@ -50,11 +72,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = false;
         state.error = action.error.message;
-      });
+      }).addCase(fetchAllUserAsync.pending, (state) => {
+        state.loading = 'loading';
+      })
+      .addCase(fetchAllUserAsync.fulfilled, (state, action) => {
+        state.allUsers = action.payload;
+      })
+      .addCase(fetchAllUserAsync.rejected, (state, action) => {
+        
+        state.error = action.error.message;
+      })
   },
 });
 
-export const { logoutUser } = authSlice.actions;
+export const { logoutUser, login } = authSlice.actions;
 export default authSlice.reducer;
 // export const userReducer=(state=intialState,action)=>{
 //     switch (action.type) {

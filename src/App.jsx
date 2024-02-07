@@ -1,56 +1,73 @@
-import React, { useState, useEffect } from "react";
-import { Navigation } from "./components/Navbar/navigation";
+import React, { useEffect, lazy } from "react";
 import { Services } from "./components/Services/services";
-
-import JsonData from "./data/data.json";
 import SmoothScroll from "smooth-scroll";
-//import AppBar from "@mui/material";
-//import Toolbar from "@mui/material";
 import "./App.css";
 // import { Services } from "./components/services";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import SignIn from "./components/SignIn/signin";
-import Home from "./components/Home/home";
-import PrivateRoute from "./components/PrivateRoute/privateRoute";
+import {  Route, Routes } from "react-router-dom";
+// import SignIn from "./components/SignIn/signin";
+// import Home from "./components/Home/home";
+import PrivateRoute from "./components/Routers/PrivateRoute/privateRoute";
 //import dashboard from "./components/Dashboard/dashboard";
-import Dashboard from "./components/Dashboard/dashboard";
+// import Dashboard from "./components/Dashboard/dashboard";
+import { login } from "./reducers/userReducer";
+import { useDispatch } from "react-redux";
+import { Layout } from "antd";
+import { Content } from "antd/es/layout/layout";
+
 //import { AppBar, Toolbar } from "@mui/material";
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
   speedAsDuration: true,
 });
 
+// Lazy load components
+const Home = lazy(() => import("./components/Home/home"));
+const SignIn = lazy(() => import("./components/SignIn/signin"));
+const Dashboard = lazy(() => import("./components/Dashboard/dashboard"));
 const App = () => {
-  const [landingPageData, setLandingPageData] = useState({});
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const handleSignIn = () => {
-    // Set isAuthenticated to true after successful sign-in
-    setIsAuthenticated(true);
-      console.log(isAuthenticated);
-  }
-    console.log(isAuthenticated);
+  // const [landingPageData, setLandingPageData] = useState({});
+  // const [isAuthenticated, setIsAuthenticated] = useState(
+  //   localStorage.getItem("token")
+  // );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setLandingPageData(JsonData);
-  }, []);
+    // setLandingPageData(JsonData);
+    dispatch(
+      login({
+        user: JSON.parse(localStorage.getItem("user")),
+        token: localStorage.getItem("token"),
+      })
+    );
+  });
 
   return (
-    <Router>
-      <Navigation />
-      <Routes>
-        <Route path="/" exact Component={Home} />
-        <Route path="/services" render={(props) => <Services {...props} />} />     
-  <Route
-    path="/signin"
-    element={<SignIn onSignIn={handleSignIn} />}
-  />
-  <Route
-    path="/dashboard"
-    element={<PrivateRoute isAuthenticated={isAuthenticated} element={<Dashboard />} />}/>
-      </Routes>
-    </Router>
-
+    <Layout style={{ minHeight: "100vh" }}>
+      <Layout>
+        <Content>
+          <Routes>
+            <Route path="/" exact Component={Home} />
+            <Route
+              path="/services"
+              exact
+              render={(props) => <Services {...props} />}
+            />
+            <Route path="/signin" exact element={<SignIn />} />
+            <Route
+              path="/dashboard/*"
+              exact
+              element={<PrivateRoute element={<Dashboard />} />}
+            >
+              {/* <Route
+                path="employee"
+                exact
+                element={<PrivateRoute element={<Employees />} />}
+              /> */}
+            </Route>
+          </Routes>
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 

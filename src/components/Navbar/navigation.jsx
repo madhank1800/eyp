@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../assests/images/eyp02.jpeg";
+import logo from "../../assests/images/eyp03.png";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 //import { Popover } from "@mui/material";
@@ -16,7 +16,6 @@ export const Navigation = (props) => {
   const data = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
   const token = localStorage.getItem("token");
-  console.log(token);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -62,52 +61,64 @@ export const Navigation = (props) => {
             className="collapse navbar-collapse"
             id="bs-example-navbar-collapse-1"
           >
-            <ul className="nav navbar-nav navbar-right">
-              <li>
-                <a href="#about" className="page-scroll">
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="page-scroll"
-                  aria-controls={open ? "basic-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
-                >
-                  Services
-                </a>
-              </li>
+            {token == null ? (
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to="/" className="page-scroll">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <a href="#about" className="page-scroll">
+                    About
+                  </a>
+                </li>
+                <li data-hover="true">
+                  <a
+                    href="#"
+                    className="page-scroll"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
+                    Services
+                  </a>
+                </li>
 
-              <li>
-                <a href="#features" className="page-scroll">
-                  Features
-                </a>
-              </li>
+                <li>
+                  <a href="#features" className="page-scroll">
+                    Features
+                  </a>
+                </li>
 
-              <li>
-                <a href="#industries" className="page-scroll">
-                  Industries
-                </a>
-              </li>
-              <li>
-                <a href="#testimonials" className="page-scroll">
-                  Testimonials
-                </a>
-              </li>
-              <li>
-                <a href="#team" className="page-scroll">
-                  Team
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="page-scroll">
-                  Contact
-                </a>
-              </li>
-              <li>
+                <li>
+                  <a href="#industries" className="page-scroll">
+                    Industries
+                  </a>
+                </li>
+                <li>
+                  <a href="#testimonials" className="page-scroll">
+                    Testimonials
+                  </a>
+                </li>
+                <li>
+                  <a href="#team" className="page-scroll">
+                    Team
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact" className="page-scroll">
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  {" "}
+                  <Link to={{ pathname: "/signin", state: JsonData }}>
+                    Sign In
+                  </Link>
+                </li>
+                {/* <li>
                 {token == null ? (
                   <Link to={{ pathname: "/signin", state: JsonData }}>
                     Sign In
@@ -115,8 +126,17 @@ export const Navigation = (props) => {
                 ) : (
                   <a onClick={handleLogout}>Sign out</a>
                 )}
-              </li>
-            </ul>
+              </li> */}
+              </ul>
+            ) : (
+              <>
+                <ul className="nav navbar-nav navbar-right">
+                  <li>
+                    <a onClick={handleLogout}>Sign out</a>
+                  </li>
+                </ul>
+              </>
+            )}
           </div>
         </div>
       </nav>
@@ -132,12 +152,15 @@ export const Navigation = (props) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>service 1</MenuItem>
-        <MenuItem onClick={handleClose}>service 2</MenuItem>
-        <MenuItem onClick={handleClose}>service 3</MenuItem>
-        <MenuItem onClick={handleClose}>service 4</MenuItem>
-        <MenuItem onClick={handleClose}>service 5</MenuItem>
-        <MenuItem onClick={handleClose}>service 6</MenuItem>
+        <MenuItem onClick={handleClose}>Testing Services</MenuItem>
+        <MenuItem onClick={handleClose}>Azure Services</MenuItem>
+        <MenuItem onClick={handleClose}>Data Engineering Services</MenuItem>
+        <MenuItem onClick={handleClose}>Full Stack</MenuItem>
+        <MenuItem onClick={handleClose}>Devops Services</MenuItem>
+        <MenuItem onClick={handleClose}>Machine Learning Services</MenuItem>
+        <MenuItem onClick={handleClose}>IT Staffing</MenuItem>
+        <MenuItem onClick={handleClose}>Artificial Intelligence</MenuItem>
+        <MenuItem onClick={handleClose}>Power BI services</MenuItem>
       </Menu>
     </>
   );

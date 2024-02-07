@@ -7,12 +7,22 @@ const signInApi = async (userData) => {
       `${config.BASE_URL}${config.login}`,
       userData
     );
-    console.log("res::", response.data);
-    // localStorage.setItem("token",response.data.token)
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("role", response.data.role);
+    localStorage.setItem("userid", response.data._id);
+    localStorage.setItem("user", JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export { signInApi };
+const fetchAllUserApi = async () => {
+  try {
+    const response = await axios.get(`${config.BASE_URL}${config.getAllUsers}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export { signInApi,fetchAllUserApi };

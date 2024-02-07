@@ -12,11 +12,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-import { signInApi } from "../../apis/authApi.jsx";
+// import { signInApi } from "../../apis/authApi.jsx";
 import "./styles.css";
 import { makeStyles } from "@mui/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginAsync } from "../../reducers/userReducer.jsx";
+import { message } from "antd";
+
 const useStyles = makeStyles((theme) => ({
   font: {
     fontSize: "15px",
@@ -45,12 +47,12 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-const SignIn = ({ onSignIn }) => {
+const SignIn = () => {
   //console.log("props",onSignIn );
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state);
+  // const currentUser = useSelector((state) => state);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,31 +62,23 @@ const SignIn = ({ onSignIn }) => {
       email: data.get("email"),
       password: data.get("password"),
     };
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-
+   
+   
     try {
-      dispatch(loginAsync(dataToSent)).then(async(res) => {
-        console.log(res)
-        if (res.payload) {
-          await  onSignIn();
-          localStorage.setItem("token",res.payload.token)
-          navigate("/dashboard");
-        }
-      });
-      // console.log(currentUser);
-      // const responses = await signInApi(dataToSent);
-      //       if (
-      //   responses.role === "user" ||
-      //   responses.role === "admin" ||
-      //   responses.role === "hr"
-      // ) {
-      //   await onSignIn();
-
-      //   navigate("/dashboard");
-      // }
+      dispatch(loginAsync(dataToSent))
+        .then(async (res) => {
+          if (res.payload) {
+            // await onSignIn();
+            navigate("/dashboard");
+            message.success("success")
+          } else {
+            // toast("Default Notification !");
+           message.error("invalid credentials!")
+          }
+        })
+        .catch((error) => {
+          message.error("Some thing went wrong?")
+        });
     } catch (error) {
       throw new Error(error);
     }
@@ -105,9 +99,7 @@ const SignIn = ({ onSignIn }) => {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          {/* <Typography component="h1" variant="h2">
-            Sign in
-          </Typography> */}
+
           <Box
             component="form"
             onSubmit={handleSubmit}

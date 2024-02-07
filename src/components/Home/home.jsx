@@ -8,6 +8,8 @@ import { Testimonials } from "../Testimonals/testimonials";
 import { Team } from "../Team/Team";
 import { Contact } from "../Contact/contact";
 import JsonData from "../../data/data.json";
+import { Navigation } from "../Navbar/navigation";
+
 const Home = () => {
   const [landingPageData, setLandingPageData] = useState({});
   useEffect(() => {
@@ -15,6 +17,7 @@ const Home = () => {
   }, []);
   return (
     <>
+      <Navigation />
       <Header data={landingPageData.Header} />
       <Features data={landingPageData.Features} />
       <About data={landingPageData.About} />

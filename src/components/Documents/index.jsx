@@ -1,0 +1,68 @@
+import React, { useState } from "react";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Upload, message } from "antd";
+import { Grid } from "@mui/material";
+
+const Documents = () => {
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const handleUpload = () => {
+    const formData = new FormData();
+    fileList.forEach((file) => {
+      console.log(file)
+      formData.append("files[]", file);
+    });
+    setUploading(true);
+    // You can use any AJAX library you like
+    fetch("https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setFileList([]);
+        message.success("upload successfully.");
+      })
+      .catch(() => {
+        message.error("upload failed.");
+      })
+      .finally(() => {
+        setUploading(false);
+      });
+  };
+  const props = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([...fileList, file]);
+      return false;
+    },
+    fileList,
+  };
+  return (
+    <Grid container spacing={2}>
+      <Grid item md={4} style={{ margin: "10px" }}>
+        <Upload {...props}>
+          <Button icon={<UploadOutlined />}>Select File</Button>
+        </Upload>
+        <Button
+          type="primary"
+          onClick={handleUpload}
+          disabled={fileList.length === 0}
+          loading={uploading}
+          style={{
+            marginTop: 16,
+          }}
+        >
+          {uploading ? "Uploading" : "Start Upload"}
+        </Button>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default Documents;

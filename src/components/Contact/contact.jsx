@@ -50,6 +50,20 @@ export const Contact = (props) => {
               </div>
               <form name="sentMessage" validate="true" onSubmit={handleSubmit}>
                 <div className="row">
+                <div className="col-md-6">
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="companyname"
+                        name="companyname"
+                        className="form-control"
+                        placeholder="Company Name"
+                        required
+                        onChange={handleChange}
+                      />
+                      <p className="help-block text-danger"></p>
+                    </div>
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <input
@@ -78,6 +92,20 @@ export const Contact = (props) => {
                       <p className="help-block text-danger"></p>
                     </div>
                   </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <input
+                        type="number"
+                        id="mobileNO"
+                        name="mobileNo"
+                        className="form-control"
+                        placeholder="Mobile Number"
+                        required
+                        onChange={handleChange}
+                      />
+                      <p className="help-block text-danger"></p>
+                    </div>
+                  </div>
                 </div>
                 <div className="form-group">
                   <textarea
@@ -85,7 +113,7 @@ export const Contact = (props) => {
                     id="message"
                     className="form-control"
                     rows="4"
-                    placeholder="Message"
+                    placeholder="Describe Your Idea.."
                     required
                     onChange={handleChange}
                   ></textarea>
@@ -93,7 +121,7 @@ export const Contact = (props) => {
                 </div>
                 <div id="success"></div>
                 <button type="submit" className="btn btn-custom btn-lg">
-                  Send Message
+                  Send 
                 </button>
               </form>
             </div>
