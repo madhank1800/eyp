@@ -1,39 +1,47 @@
 import { useState } from "react";
 import emailjs from "emailjs-com";
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { createEnquiry } from "../../reducers/enquiryReducer";
+import { message } from "antd";
 
 const initialState = {
   name: "",
+  companyname: "",
+  mobile: 0,
   email: "",
-  message: "",
+  idea: "",
 };
 export const Contact = (props) => {
-  const [{ name, email, message }, setState] = useState(initialState);
-
+  const [state, setState] = useState(initialState);
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
   const clearState = () => setState({ ...initialState });
-  
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, email, message);
-    
-    {/* replace below with your own Service ID, Template ID and Public Key from your EmailJS account */ }
-    
-    emailjs
-      .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", e.target, "YOUR_PUBLIC_KEY")
-      .then(
-        (result) => {
-          console.log(result.text);
-          clearState();
-        },
-        (error) => {
-          console.log(error.text);
+    console.log(state);
+    dispatch(createEnquiry(state))
+      .then((res) => {
+       console.log(res)
+        if (res?.meta.requestStatus === "fulfilled") {
+          // setLoading(false);
+          message.success(res?.payload?.message);
+          // handleClose()
+          clearState()
         }
-      );
+        if (res?.meta.requestStatus === "rejected") {
+          // setLoading(false);
+          message.err("some thing went wrong");
+          // handleClose()
+        }
+      })
+      .catch((err) => {
+        message.error(err);
+      });
   };
   return (
     <div>
@@ -50,7 +58,21 @@ export const Contact = (props) => {
               </div>
               <form name="sentMessage" validate="true" onSubmit={handleSubmit}>
                 <div className="row">
-                <div className="col-md-6">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        className="form-control"
+                        placeholder="Full Name"
+                        required
+                        onChange={handleChange}
+                      />
+                      <p className="help-block text-danger"></p>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
                     <div className="form-group">
                       <input
                         type="text"
@@ -64,20 +86,7 @@ export const Contact = (props) => {
                       <p className="help-block text-danger"></p>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="form-control"
-                        placeholder="Name"
-                        required
-                        onChange={handleChange}
-                      />
-                      <p className="help-block text-danger"></p>
-                    </div>
-                  </div>
+
                   <div className="col-md-6">
                     <div className="form-group">
                       <input
@@ -97,7 +106,7 @@ export const Contact = (props) => {
                       <input
                         type="number"
                         id="mobileNO"
-                        name="mobileNo"
+                        name="mobile"
                         className="form-control"
                         placeholder="Mobile Number"
                         required
@@ -109,7 +118,7 @@ export const Contact = (props) => {
                 </div>
                 <div className="form-group">
                   <textarea
-                    name="message"
+                    name="idea"
                     id="message"
                     className="form-control"
                     rows="4"
@@ -121,7 +130,7 @@ export const Contact = (props) => {
                 </div>
                 <div id="success"></div>
                 <button type="submit" className="btn btn-custom btn-lg">
-                  Send 
+                  Send
                 </button>
               </form>
             </div>
@@ -180,9 +189,7 @@ export const Contact = (props) => {
       </div>
       <div id="footer">
         <div className="container text-center">
-          <p>
-            &copy; 2023 EYP{" "}           
-          </p>
+          <p>&copy; 2023 EYP </p>
         </div>
       </div>
     </div>

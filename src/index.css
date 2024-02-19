@@ -57,3 +57,7 @@ html {
   width: 100vw;
   overflow: hidden;
  } */
+
+ .ant-dropdown-menu-submenu-expand-icon{
+  padding-top: 6px  !important;
+ }

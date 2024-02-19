@@ -42,7 +42,7 @@ const App = () => {
   });
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    // <Layout style={{ minHeight: "100vh" }}>
       <Layout>
         <Content>
           <Routes>
@@ -67,7 +67,7 @@ const App = () => {
           </Routes>
         </Content>
       </Layout>
-    </Layout>
+    // </Layout>
   );
 };
 

@@ -76,9 +76,10 @@ hr {
   transition: all 0.8s;
 }
 #menu.navbar-default {
-  background-color:black;
+  /* background-color:black; */
+  background-color:#36312D;
   
-  border-color: rgba(231, 231, 231, 0);
+  border-color: #36312D;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 #menu a.navbar-brand {
@@ -241,7 +242,7 @@ a:focus,
   margin-bottom: 60px;
 }
 header .intro-text {
-  padding-top: 350px;
+  padding-top: 250px;
   padding-bottom: 200px;
   text-align: center;
 }

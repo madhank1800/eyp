@@ -9,14 +9,18 @@ import {
   DiffOutlined,
   DashboardOutlined,
   TeamOutlined,
+  QuestionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import "./subnavigation.css";
+import { useSelector } from "react-redux";
 const { Sider } = Layout;
-
 
 export default function Navigation() {
   const [collapsed, setCollapsed] = useState(false);
+  const role = localStorage.getItem("role");
+
+  // console.log(role.toLowerCase());
 
   return (
     <>
@@ -38,18 +42,31 @@ export default function Navigation() {
             <Link to={"/dashboard"} />
             Dashboard
           </Menu.Item>
-
-          <Menu.Item key={"dashboard/Employee"} icon={<UserOutlined />}>
-            <Link to={"/dashboard/employee"} />
-            Employee
-          </Menu.Item>
-          <Menu.Item key={"dashboard/Documets"} icon={<DiffOutlined />}>
-            <Link to={"/dashboard/documents"} />
-            upload Documets
-          </Menu.Item>
-          <Menu.Item key={"Admin"} icon={<TeamOutlined />}>
-            <Link to={"/admin"} />
-            Admin
+          {role.toLowerCase() === "admin" ? (
+            <>
+              <Menu.Item key={"dashboard/Employee"} icon={<TeamOutlined />}>
+                <Link to={"/dashboard/employee"} />
+                Employees
+              </Menu.Item>
+              <Menu.Item key={"dashboard/Documets"} icon={<DiffOutlined />}>
+                <Link to={"/dashboard/documents"} />
+                Upload Documets
+              </Menu.Item>
+              <Menu.Item key={"dashboard/Enquiry"} icon={<QuestionOutlined />}>
+                <Link to={"/dashboard/enquiry"} />
+                Enquiry
+              </Menu.Item>
+              <Menu.Item key={"Admin"} icon={<UserOutlined />}>
+                <Link to={"/admin"} />
+                Admin
+              </Menu.Item>
+            </>
+          ) : (
+            <></>
+          )}
+          <Menu.Item key={"dashboard/viewdocuments"} icon={<DiffOutlined />}>
+            <Link to={"/dashboard/viewdocuments"} />
+            My Documets
           </Menu.Item>
           <Menu.Item key={"settings"} icon={<SettingOutlined />}>
             <Link to={"/settings"} />

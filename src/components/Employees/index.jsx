@@ -15,7 +15,15 @@ import AddIcon from "@mui/icons-material/Add";
 import AddEmployee from "./addEmployee";
 import { fetchAllUserAsync } from "../../reducers/userReducer";
 import { useDispatch } from "react-redux";
+import { makeStyles } from "@mui/styles";
+import { useParams } from "react-router-dom";
 
+const useStyles = makeStyles((theme) => ({
+  btn: {
+    background: "linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%)",
+    color:"#fff !important"
+  },
+}));
 const columns = [
   { id: "employeeId", label: "EmpId", minWidth: 100 },
   { id: "firstname", label: "Firstname", minWidth: 100 },
@@ -23,18 +31,18 @@ const columns = [
   { id: "email", label: "Email", minWidth: 100 },
   { id: "mobile", label: "Mobile", minWidth: 100 },
   { id: "role", label: "Role", minWidth: 100 },
- 
 ];
 
-
-
 const Employees = () => {
+ 
+  const classes = useStyles();
   const dispatch = useDispatch();
   const getAllUsers = useSelector((state) => state.auth.allUsers || []);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const handleAdd = () => {
     setIsOpen(!isOpen);
@@ -45,8 +53,8 @@ const Employees = () => {
         console.log(res);
       })
       .catch((err) => {});
-      console.log(getAllUsers)
-  }, []);
+    console.log(getAllUsers);
+  }, [refresh]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -56,7 +64,9 @@ const Employees = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  const handleRefresh = () => {
+    setRefresh(!refresh);
+  };
   return (
     <>
       {isOpen && <AddEmployee open={true} />}
@@ -67,14 +77,14 @@ const Employees = () => {
             {" "}
             <Grid item xs={4}>
               {" "}
-              <Button variant="contained" onClick={handleAdd}>
+              <Button variant="contained" onClick={handleAdd} className={classes.btn}>
                 <AddIcon />
                 Add New Employee
               </Button>
             </Grid>
             <Grid item xs={4}>
               {" "}
-              <Button variant="outlined">
+              <Button variant="outlined" onClick={handleRefresh} className={classes.btn}>
                 <RefreshIcon />
                 refresh
               </Button>
@@ -82,59 +92,63 @@ const Employees = () => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-        <Paper sx={{ width: "90%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {getAllUsers
-                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  ?.map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.code}
+          <Paper sx={{ width: "90%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
                       >
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={getAllUsers.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
+                       <b> {column.label}</b>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {getAllUsers
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    ?.map((row) => {
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row.code}
+                        >
+                          {columns.map((column) => {
+                            const value = row[column.id];
+                            console.log(value,typeof value)
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === "number"
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5,10, 25, 100]}
+              component="div"
+              count={getAllUsers.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
         </Grid>
       </Grid>
     </>

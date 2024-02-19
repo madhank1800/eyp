@@ -9,13 +9,15 @@ import {
   LogoutOutlined,
   BellOutlined,
 } from "@ant-design/icons";
-
+import { useParams } from "react-router-dom";
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 // import photo from '@/style/images/photo.png';
 
 import { Link, useNavigate } from "react-router-dom";
 
 export default function HeaderContent({ data }) {
+  // const s=useParams()
+  // console.log(s)
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -60,7 +62,7 @@ export default function HeaderContent({ data }) {
   return (
     <div
       className="headerIcon"
-      style={{ position: "absolute", right: 0, zIndex: "99" }}
+      style={{ position: "absolute", right: 0, zIndex: "99",cursor:"pointer" }}
     >
       <Dropdown
         overlay={profileDropdown}
@@ -69,7 +71,7 @@ export default function HeaderContent({ data }) {
       >
         <Avatar className="last" icon={<PersonRoundedIcon style={{color:"#fffff"}}/>} />
       </Dropdown>
-      <Avatar icon={<AppstoreOutlined />} />
+      {/* <Avatar icon={<AppstoreOutlined />} /> */}
       <Avatar icon={<BellOutlined />} />
     </div>
   );
