@@ -16,7 +16,13 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEnquiries } from "../../reducers/enquiryReducer";
+import { makeStyles } from "@mui/styles";
 
+const useStyles = makeStyles((theme) => ({
+  font: {
+    fontSize: "15px ",
+  },
+}));
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = useState(false);
@@ -42,11 +48,24 @@ function Row(props) {
         {/* <TableCell align="right">{row.protein}</TableCell> */}
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell
+          style={{
+            paddingBottom: 0,
+            paddingTop: 0,
+            background:
+              "linear-gradient(45deg, rgb(96, 194, 275) 0%, rgb(18, 238, 193) 100%)",
+          }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Idea: {row.idea}
+              <Typography
+                variant="h6"
+                gutterBottom
+                component="div"
+                style={{ textAlign: "center" }}
+              >
+                <b>Idea:</b> {row.idea}
               </Typography>
             </Box>
           </Collapse>
@@ -57,6 +76,7 @@ function Row(props) {
 }
 
 const Enquiry = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const data = useSelector((state) => state.enquiry || []);
   console.log(data.enquiries);
@@ -83,19 +103,25 @@ const Enquiry = () => {
       <Grid container spacing={2} style={{ margin: "0px 20px", width: "auto" }}>
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
-            <TableHead stickyHeader style={{ background: "#d5e2f7" }}>
+            <TableHead
+              stickyHeader
+              style={{
+                background:
+                  "linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%)",
+              }}
+            >
               <TableRow>
                 <TableCell />
-                <TableCell>
+                <TableCell className={classes.font}>
                   <b>Name</b>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.font}>
                   <b>Company Name</b>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.font}>
                   <b>Email</b>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.font}>
                   <b>Mobile</b>
                 </TableCell>
               </TableRow>
@@ -110,16 +136,15 @@ const Enquiry = () => {
             </TableBody>
           </Table>
           <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 100]}
-          component="div"
-          count={data.enquiries?.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+            rowsPerPageOptions={[5, 10, 25, 100]}
+            component="div"
+            count={data.enquiries?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
-        
       </Grid>
     </>
   );

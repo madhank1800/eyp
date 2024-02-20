@@ -9,40 +9,59 @@ import FormControl from "@mui/material/FormControl";
 import { uploadDocument } from "../../reducers/documentReducer";
 import FormHelperText from "@mui/material/FormHelperText";
 import { Button, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-// const { Option } = Select;
-
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import documentLogo from "../../assests/images/document.png";
+import Autocomplete from "@mui/material/Autocomplete";
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles((theme) => ({
+  btn: {
+    background:
+      "linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%)",
+    color: "#fff !important",
+  },
+  upload: {
+    "&& .css-1rwt2y5-MuiButtonBase-root-MuiButton-root ": {
+      color: " #12b1d1 !important",
+    },
+    image: {
+      boxShadow: "0px 0px 20px 3px rgba(150, 190, 238, 0.15) !important",
+    },
+  },
+}));
 const Documents = () => {
+  const classes = useStyles();
   const empIds = useSelector((state) => state.employees.empIds || []);
   // console.log(empIds);
   const dispatch = useDispatch();
   const [fileList, setFileList] = useState([]);
   const [empId, setEmpId] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [formData, setFormData] = useState(
-    {
-    // empId: "",
-    // files: [],
-  }
-  );
+  const [formData, setFormData] = useState({
+    empId: "",
+    files: [],
+  });
   const [options, setOptions] = useState([]);
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
-
 
   const handleDelete = (index) => {
     const newFiles = [...formData?.files];
     newFiles.splice(index, 1);
     setFormData(newFiles);
   };
-  const handleInputChange = (event) => {
+  const handleInputChange = (event, newValue) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    console.log(name, value, newValue, typeof newValue);
+    setFormData({ ...formData, ["empId"]: value });
   };
 
   const handleFileChange = (event) => {
     const files = event.target.files;
     console.log(event.target.files);
-    setFormData({ ...formData, files });
+    setFormData({ ...formData, files: [...files] });
   };
 
   const handleSubmit = (event) => {
@@ -97,61 +116,136 @@ const Documents = () => {
   useEffect(() => {
     dispatch(getAllEmployeeIds());
   }, []);
+
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} padding={10}>
           <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputLabel id="selected-option-label">Select Option</InputLabel>
-              <Select
-                labelId="selected-option-label"
-                id="selected-option"
-                name="empId"
-                value={formData.selectedOption}
-                onChange={handleInputChange}
-                label="Select Option"
-                error={!!errors.selectedOption}
-              >
-                {empIds.map((option, index) => (
-                  <MenuItem key={index} value={option}>
-                    {option}
-                  </MenuItem>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    onChange={handleInputChange}
+                    // getOptionLabel={getOptionlabel}
+                    name="empId"
+                    options={empIds}
+                    error={!!errors.selectedOption}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Select EmployeeId" />
+                    )}
+                  />
+
+                  {errors.selectedOption && (
+                    <FormHelperText error>
+                      {errors.selectedOption}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+                {/* <FormControl fullWidth>
+                  <InputLabel id="selected-option-label">
+                    Select Option
+                  </InputLabel>
+                  <Select
+                    labelId="selected-option-label"
+                    id="selected-option"
+                    name="empId"
+                    value={formData.selectedOption}
+                    onChange={handleInputChange}
+                    label="Select Option"
+                    size="medium"
+                    error={!!errors.selectedOption}
+                  >
+                    {empIds.map((option, index) => (
+                      <MenuItem key={index} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.selectedOption && (
+                    <FormHelperText error>
+                      {errors.selectedOption}
+                    </FormHelperText>
+                  )}
+                </FormControl> */}
+              </Grid>
+              <Grid item xs={12}>
+                <input
+                  accept=".pdf,.doc,.docx"
+                  style={{ display: "none" }}
+                  id="upload-files"
+                  name="file"
+                  // multiple
+                  type="file"
+                  onChange={handleFileChange}
+                />
+                <label htmlFor="upload-files" className={classes.upload}>
+                  <Button
+                    variant="outlined"
+                    component="span"
+                    startIcon={<CloudUploadIcon />}
+                    style={{ width: "23.5vw" }}
+                  >
+                    Upload Files
+                  </Button>
+                </label>
+                {errors.files && (
+                  <FormHelperText error>{errors.files}</FormHelperText>
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {/* {formData?.files && (
+              <>
+                <AttachFileIcon />
+                {formData?.files[0].name}
+                <IconButton
+                  // onClick={() => handleDelete(index)}
+                  color="warning"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </>
+            )} */}
+                {formData?.files?.map((file, index) => (
+                  <div key={index} style={{display:"flex",background: "#fff",
+                  borderRadius: "10px",
+                  boxShadow:" 0px 0px 2px 1px #12B1D2",width:"23.5vw"}}>
+                    <AttachFileIcon style={{margin:"10px"}}/>
+                    <span  style={{marginTop:"7px"}}>{file.name}</span>
+                    <IconButton
+                      onClick={() => handleDelete(index)}
+                      color="secondary"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
                 ))}
-              </Select>
-              {errors.selectedOption && (
-                <FormHelperText error>{errors.selectedOption}</FormHelperText>
-              )}
-            </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  className={classes.btn}
+                  // disabled={!isFormValid}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <input
-              accept=".pdf,.doc,.docx"
-              style={{ display: "none" }}
-              id="upload-files"
-              name="file"
-              // multiple
-              type="file"
-              onChange={handleFileChange}
+          <Grid item xs={6}>
+            <img
+              src={documentLogo}
+              width={500}
+              style={{
+                boxShadow: "0px 0px 20px 3px rgba(150, 190, 238, 0.15)",
+                borderRadius: "40px",
+              }}
             />
-            <label htmlFor="upload-files">
-              <Button variant="contained" component="span">
-                Upload Files
-              </Button>
-            </label>
-            {errors.files && (
-              <FormHelperText error>{errors.files}</FormHelperText>
-            )}
-          </Grid><Grid item xs={12}>{formData?.files &&(<>{formData?.files[0].name}</>)}</Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              // disabled={!isFormValid}
-            >
-              Submit
-            </Button>
           </Grid>
         </Grid>
       </form>
@@ -171,22 +265,3 @@ const Documents = () => {
 };
 
 export default Documents;
-
-// dispatch(uploadDocument(values))
-//   .then((res) => {
-//     console.log(res);
-//     if (res?.meta.requestStatus === "fulfilled") {
-//       // setLoading(false);
-//       message.success(res?.payload?.message);
-//       // handleClose()
-//     } else if (res?.meta.requestStatus === "rejected") {
-//       // setLoading(false);
-//       console.log("rejected");
-
-//       message.error("some thing went wrong");
-//       // handleClose()
-//     }
-//   })
-//   .catch((err) => {
-//     message.error(err);
-//   });
