@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { UploadOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +7,7 @@ import { getAllEmployeeIds } from "../../reducers/employeeReducer";
 import FormControl from "@mui/material/FormControl";
 import { uploadDocument } from "../../reducers/documentReducer";
 import FormHelperText from "@mui/material/FormHelperText";
-import { Button, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button,  TextField } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { IconButton } from "@mui/material";
@@ -55,7 +54,7 @@ const Documents = () => {
   const handleInputChange = (event, newValue) => {
     const { name, value } = event.target;
     console.log(name, value, newValue, typeof newValue);
-    setFormData({ ...formData, ["empId"]: value });
+    setFormData({ ...formData, ["empId"]: newValue });
   };
 
   const handleFileChange = (event) => {
@@ -99,6 +98,7 @@ const Documents = () => {
     // Validate selected option
     if (!formData.empId) {
       isValid = false;
+      console.log(formData)
       newErrors.selectedOption = "Please select an option";
     }
 
@@ -121,7 +121,7 @@ const Documents = () => {
     <>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2} padding={10}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <FormControl fullWidth>
@@ -237,7 +237,7 @@ const Documents = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <img
               src={documentLogo}
               width={500}

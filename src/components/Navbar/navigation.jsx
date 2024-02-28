@@ -10,7 +10,7 @@ import JsonData from "../../data/data.json";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import { Dropdown, Space } from "antd";
-
+import "./styles.css"
 const useStyles = makeStyles((theme) => ({
   menuStyle: {
     // backgroundColor: 'blue',
@@ -182,11 +182,11 @@ export const Navigation = (props) => {
                 </Dropdown>
               </li>
 
-              <li>
+              {/* <li>
                 <a href="#features" className="page-scroll">
                   Features
                 </a>
-              </li>
+              </li> */}
 
               <li>
                 <a href="#industries" className="page-scroll">
@@ -199,14 +199,14 @@ export const Navigation = (props) => {
                 </a>
               </li>
               <li>
-                <a href="#team" className="page-scroll">
-                  Team
+                <a href="" className="page-scroll">
+                  Who we are
                 </a>
               </li>
               <li>
-                <a href="#contact" className="page-scroll">
-                  Contact
-                </a>
+              <Link to={{ pathname: "/signin", state: JsonData }}>
+                 Careers
+                </Link>
               </li>
               <li>
                 {" "}
@@ -230,6 +230,7 @@ export const Navigation = (props) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        style={{width:"100vw"}}
       >
         <Grid container spacing={2}></Grid>
         <MenuItem onClick={handleClose}>Testing Services</MenuItem>

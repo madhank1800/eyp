@@ -135,15 +135,24 @@ const downloadDocument = async (id) => {
   try {
     const response = await axios.get(
       `${config.BASE_URL}${config.downloadDoc}/${id}`,
-     
+
       {
-        responseType:"arraybuffer",
-        headers: { 
+        responseType: "arraybuffer",
+        headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
-    console.log(response.config.url)
+    console.log(response.config.url);
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+const deleteEmployee = async (id) => {
+  try {
+    const response = await axios.delete(`${config.BASE_URL}user/${id}`);
+    console.log(response);
     return response;
   } catch (error) {
     throw new Error(error);
@@ -159,4 +168,5 @@ export {
   postDocument,
   fetchAllDocumentsBYEmployeeId,
   downloadDocument,
+  deleteEmployee,
 };

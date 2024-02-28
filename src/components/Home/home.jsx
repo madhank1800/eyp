@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Header } from "../Navbar/header";
 import { Features } from "../Features/features";
 import { About } from "../About/about";
-import { Services } from "../Services/services";
+import  Services  from "../Services/services";
 import { Industries } from "../Industries/industries";
 import { Testimonials } from "../Testimonals/testimonials";
 import { Team } from "../Team/Team";
@@ -19,7 +19,7 @@ const Home = () => {
     <>
       <Navigation />
       <Header data={landingPageData.Header} />
-      <Features data={landingPageData.Features} />
+      {/* <Features data={landingPageData.Features} /> */}
       <About data={landingPageData.About} />
       <Services data={landingPageData.Services} />
       <Industries data={landingPageData.Industries} />

@@ -17,11 +17,19 @@ import { fetchAllUserAsync } from "../../reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import { useParams } from "react-router-dom";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
+import { deleteEmployee } from "../../apis/Apis";
+import PageLoader from "../../PageLoader";
+import { message } from "antd";
 
 const useStyles = makeStyles((theme) => ({
   btn: {
-    background: "linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%)",
-    color:"#fff !important"
+    background:
+      "linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%)",
+    color: "#fff !important",
   },
 }));
 const columns = [
@@ -34,8 +42,9 @@ const columns = [
 ];
 
 const Employees = () => {
- 
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const getAllUsers = useSelector((state) => state.auth.allUsers || []);
   const [page, setPage] = useState(0);
@@ -43,7 +52,36 @@ const Employees = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [rowData, setRowData] = useState(0);
+  const open = Boolean(anchorEl);
+  const handleClick = (event, row) => {
+    // console.log(row)
+    setRowData(row);
+    setAnchorEl(event.currentTarget);
+  };
+  const handleEdit = () => {
+    console.log(rowData);
+    navigate("/dashboard/editemployee", { state: { rowData } });
+  };
+  const handleDelete = async () => {
+    setAnchorEl(null);
+    const res = await deleteEmployee(rowData._id);
+    console.log(res.status);
+    setLoading(true);
+    if (res?.status == 200) {
+      setRefresh(!refresh);
+      setLoading(false);
+      message.success(res?.data);
+    } else {
+      setLoading(false);
+      message.error("server error");
+    }
+    // navigate("/dashboard/editemployee", { state: { rowData } })
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleAdd = () => {
     setIsOpen(!isOpen);
   };
@@ -69,6 +107,8 @@ const Employees = () => {
   };
   return (
     <>
+      {loading && <PageLoader />}
+
       {isOpen && <AddEmployee open={true} />}
       <Grid container style={{ margin: "0px 10px" }} spacing={2}>
         <Grid item xs={12} md={12}>
@@ -77,14 +117,22 @@ const Employees = () => {
             {" "}
             <Grid item xs={4}>
               {" "}
-              <Button variant="contained" onClick={handleAdd} className={classes.btn}>
+              <Button
+                variant="contained"
+                onClick={handleAdd}
+                className={classes.btn}
+              >
                 <AddIcon />
                 Add New Employee
               </Button>
             </Grid>
             <Grid item xs={4}>
               {" "}
-              <Button variant="outlined" onClick={handleRefresh} className={classes.btn}>
+              <Button
+                variant="outlined"
+                onClick={handleRefresh}
+                className={classes.btn}
+              >
                 <RefreshIcon />
                 refresh
               </Button>
@@ -103,9 +151,10 @@ const Employees = () => {
                         align={column.align}
                         style={{ minWidth: column.minWidth }}
                       >
-                       <b> {column.label}</b>
+                        <b> {column.label}</b>
                       </TableCell>
                     ))}
+                    <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -124,15 +173,21 @@ const Employees = () => {
                         >
                           {columns.map((column) => {
                             const value = row[column.id];
-                            console.log(value,typeof value)
                             return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
+                              <>
+                                <TableCell key={column.id} align={column.align}>
+                                  {column.format && typeof value === "number"
+                                    ? column.format(value)
+                                    : value}
+                                </TableCell>
+                              </>
                             );
                           })}
+                          <TableCell style={{ cursor: "pointer" }}>
+                            <MoreHorizIcon
+                              onClick={(event) => handleClick(event, row)}
+                            />
+                          </TableCell>
                         </TableRow>
                       );
                     })}
@@ -140,7 +195,7 @@ const Employees = () => {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[5,10, 25, 100]}
+              rowsPerPageOptions={[5, 10, 25, 100]}
               component="div"
               count={getAllUsers.length}
               rowsPerPage={rowsPerPage}
@@ -151,6 +206,22 @@ const Employees = () => {
           </Paper>
         </Grid>
       </Grid>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        style={{
+          boxShadow:
+            "0px 0px 0px -3px rgba(0,0,0,0.2), 0px 8px 8px 0px rgba(0,0,0,0.14), 0px 3px 6px 2px rgba(0,0,0.)",
+        }}
+      >
+        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+      </Menu>
     </>
   );
 };

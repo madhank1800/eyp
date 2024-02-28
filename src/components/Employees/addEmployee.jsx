@@ -3,13 +3,10 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -17,7 +14,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import PageLoader from "../../PageLoader";
 import { useDispatch } from "react-redux";
-import { Flex, message } from "antd";
+import {  message } from "antd";
 import { addEmployee } from "../../reducers/employeeReducer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -44,14 +41,13 @@ const AddEmployee = (props) => {
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleClose = () => {
     setOpen(false);
@@ -87,30 +83,7 @@ const AddEmployee = (props) => {
       <Dialog
         open={open}
         onClose={handleClose}
-        // PaperProps={{
-        //   component: "form",
-        //   onSubmit: async (event) => {
-        //     event.preventDefault();
-        //     const formData = new FormData(event.currentTarget);
-        //     const formJson = Object.fromEntries(formData.entries());
-        //     // setLoading(true);
-        //     console.log(formJson);
-        //     const res = await dispatch(addEmployee(formJson));
-        //     console.log(res);
-        //     // .then(async (res) => {
-        //     //   console.log(res);
-        //     //   setLoading(false);
-        //     //   message.success("success");
-        //     //   handleClose();
-        //     // })
-        //     // .catch((err) => {
-        //     //   console.log("ttt");
-        //     //   setLoading(false);
-        //     //   message.error(err);
-        //     //   handleClose();
-        //     // });
-        //   },
-        // }}
+     
       >
         {loading && <PageLoader />}
         <DialogTitle className={classes.header}>Add New Employee</DialogTitle>
@@ -130,6 +103,37 @@ const AddEmployee = (props) => {
             />
           </FormControl>
           <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Department</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              //   value={role}
+              onChange={handleChange}
+              name="department"
+              label="department"
+            >
+              <MenuItem value={"Development"}>Development</MenuItem> 
+              <MenuItem value={"Testing"}>Testing</MenuItem>
+              <MenuItem value={"HR"}>HR</MenuItem>
+              <MenuItem value={"Businees"}>Businees</MenuItem>
+              <MenuItem value={"Marketing"}>Marketing</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="outlined-required"
+              name="designation"
+              label="Designation"
+              onChange={handleChange}
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+          </FormControl>
+          <FormControl fullWidth>
             <TextField
               autoFocus
               required
@@ -138,7 +142,7 @@ const AddEmployee = (props) => {
               name="firstname"
               label="First Name"
               onChange={handleChange}
-              type="test"
+              type="text"
               fullWidth
               variant="outlined"
             />
@@ -224,8 +228,8 @@ const AddEmployee = (props) => {
               name="role"
               label="Role"
             >
-              <MenuItem value={"Admin"}>Admin</MenuItem>
-              <MenuItem value={"Employee"}>Employee</MenuItem>
+              <MenuItem value={"admin"}>Admin</MenuItem>
+              <MenuItem value={"employee"}>Employee</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>

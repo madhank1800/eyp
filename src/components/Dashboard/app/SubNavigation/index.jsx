@@ -39,7 +39,7 @@ export default function Navigation() {
         </div>
         <Menu mode="inline">
           <Menu.Item key={"Dashboard"} icon={<DashboardOutlined />}>
-            <Link to={"/dashboard"} />
+            <Link to={"/dashboard/profile"} />
             Dashboard
           </Menu.Item>
           {role.toLowerCase() === "admin" ? (
@@ -69,7 +69,7 @@ export default function Navigation() {
             My Documets
           </Menu.Item>
           <Menu.Item key={"settings"} icon={<SettingOutlined />}>
-            <Link to={"/settings"} />
+            <Link to={"/dashboard/settings"} />
             Settings
           </Menu.Item>
         </Menu>

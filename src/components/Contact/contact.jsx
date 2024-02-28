@@ -4,7 +4,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createEnquiry } from "../../reducers/enquiryReducer";
 import { message } from "antd";
-
+import PageLoader from "../../PageLoader";
+import "./styles.css"
 const initialState = {
   name: "",
   companyname: "",
@@ -15,6 +16,8 @@ const initialState = {
 export const Contact = (props) => {
   const [state, setState] = useState(initialState);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -23,28 +26,31 @@ export const Contact = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(state);
+    // console.log(state);
+    setLoading(true);
     dispatch(createEnquiry(state))
       .then((res) => {
-       console.log(res)
+      //  console.log(res)
         if (res?.meta.requestStatus === "fulfilled") {
-          // setLoading(false);
+          setLoading(false);
           message.success(res?.payload?.message);
           // handleClose()
           clearState()
         }
         if (res?.meta.requestStatus === "rejected") {
-          // setLoading(false);
+          setLoading(false);
           message.err("some thing went wrong");
           // handleClose()
         }
       })
       .catch((err) => {
+        setLoading(false);
         message.error(err);
       });
   };
   return (
     <div>
+      {loading && <PageLoader />}
       <div id="contact">
         <div className="container">
           <div className="col-md-8">

@@ -1,31 +1,56 @@
 import React from "react";
+import "./styles.css"
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-export const Services = (props) => {
+const Services = (props) => {
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+ 
   return (
     <div id="services" className="text-center">
       <div className="container">
         <div className="section-title">
           <h2>Our Services</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-            dapibus leonec.
-          </p>
+          
         </div>
         <div className="row">
-          {props.data
-            ? props.data.map((d, i) => (
+          {props.data ? (
+            <Slider {...settings}>
+              {" "}
+              {props.data.map((d, i) => (
                 <div key={`${d.name}-${i}`} className="col-md-4">
                   {" "}
                   <i className={d.icon}></i>
                   <div className="service-desc">
                     <h3>{d.name}</h3>
-                    <p>{d.text}</p>
+                    <p style={{ textAlign: "justify" }}>{d.text}</p>
                   </div>
                 </div>
-              ))
-            : "loading"}
+              ))}
+            </Slider>
+          ) : (
+            "loading"
+          )}
         </div>
       </div>
     </div>
   );
 };
+export default Services;

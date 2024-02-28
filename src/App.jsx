@@ -1,5 +1,5 @@
 import React, { useEffect, lazy } from "react";
-import { Services } from "./components/Services/services";
+import  Services  from "./components/Services/services";
 import SmoothScroll from "smooth-scroll";
 import "./App.css";
 // import { Services } from "./components/services";
