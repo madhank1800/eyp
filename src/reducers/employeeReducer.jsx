@@ -1,10 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addEmployeeApi,fetchAllUsersEmployeeIds } from "../apis/Apis";
+import { addEmployeeApi,fetchAllUsersEmployeeIds, updateEmployeeApi } from "../apis/Apis";
 
 export const addEmployee = createAsyncThunk(
   "employee/addEmployee",
   async (data) => {
     const response = await addEmployeeApi(data);
+    return response;
+  }
+);
+export const updateEmployee = createAsyncThunk(
+  "employee/updateEmployee",
+  async (data) => {
+    const response = await updateEmployeeApi(data);
     return response;
   }
 );
@@ -20,7 +27,8 @@ const employeeSlice = createSlice({
   initialState: {
     employee: null,
     error: null,
-    empIds:[]
+    empIds:[],
+    updateEmpRes:null
   },
   reducers: {
     setAllEmployees: (state, action) => {
@@ -52,6 +60,19 @@ const employeeSlice = createSlice({
         state.error =null;
       })
       .addCase(getAllEmployeeIds.rejected, (state, action) => {
+        // state.employee = action.payload;  
+        state.error = action.payload;
+      });
+    builder
+      .addCase(updateEmployee.pending, (state) => {
+        state.updateEmpRes = null;
+        state.error = null;
+      })
+      .addCase(updateEmployee.fulfilled, (state, action) => {
+        state.updateEmpRes = action.payload;
+        state.error =null;
+      })
+      .addCase(updateEmployee.rejected, (state, action) => {
         // state.employee = action.payload;  
         state.error = action.payload;
       });

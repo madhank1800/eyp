@@ -53,7 +53,7 @@ const Profile = () => {
             <Grid container spacing={2} m={1}>
               <Grid item md={6} xs={12}>
                 <label>EmployeeCode:</label>
-                <Typography component="h5">{user?.empId}</Typography>
+                <Typography component="h5">{user?.employeeId}</Typography>
               </Grid>
               <Grid item md={6} xs={12}>
                 <label>First name:</label>

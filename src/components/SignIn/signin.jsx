@@ -1,4 +1,4 @@
-import * as React from "react";
+import   React,{useState} from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,10 +16,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { makeStyles } from "@mui/styles";
 import { useDispatch } from "react-redux";
-import { loginAsync } from "../../reducers/userReducer.jsx";
+import { loginAsync, updateUser } from "../../reducers/userReducer.jsx";
 import { message } from "antd";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
 
 const useStyles = makeStyles((theme) => ({
   font: {
@@ -63,6 +66,10 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const currentUser = useSelector((state) => state);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -77,6 +84,7 @@ const SignIn = () => {
       dispatch(loginAsync(dataToSent))
         .then(async (res) => {
           if (res.payload) {
+            dispatch(updateUser(res.payload))
             // await onSignIn();
             navigate("/dashboard");
             message.success("success");
@@ -141,9 +149,20 @@ const SignIn = () => {
                   margin="normal"
                   required
                   fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        onClick={handleTogglePasswordVisibility}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}{" "}
+                      </IconButton>
+                    ),
+                  }}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   label="Password"
-                  type="password"
+                 
                   id="password"
                   autoComplete="current-password"
                 />
@@ -167,7 +186,10 @@ const SignIn = () => {
                 <Grid item xs>
                   <Link href="#" variant="body1" style={{ color: "#0099ff" }}>
                     Forgot password?
-                  </Link>
+                  </Link><br/>
+                  {/* <Link to={"/signup"} variant="body1" style={{ color: "#0099ff" }}>
+                    Register?
+                  </Link> */}
                 </Grid>
                 <Grid item>
                   <Link to={"/"} variant="body1" style={{ color: "#0099ff" }}>

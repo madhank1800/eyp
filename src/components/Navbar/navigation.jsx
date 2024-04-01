@@ -3,14 +3,20 @@ import logo from "../../assests/images/eyp03.png";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 //import { Popover } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuList from "@mui/material/MenuList";
 //import  { Typography} from "@mui/material";
 import JsonData from "../../data/data.json";
 // import { useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import { Dropdown, Space } from "antd";
-import "./styles.css"
+import "./styles.css";
 const useStyles = makeStyles((theme) => ({
   menuStyle: {
     // backgroundColor: 'blue',
@@ -21,9 +27,26 @@ const useStyles = makeStyles((theme) => ({
     //   backgroundColor: 'darkblue',
     // },
   },
+  btn: {
+    fontFamily: "synthese, sans-serif !important",
+    color: "white !important",
+    textTransform:"lowercase !important" ,
+    fontSize: "15px !important",
+    fontWeight:" 400 !important",
+    padding: "8px 2px !important",
+    letterSpacing: ".11px !important",
+    transition: "transform ease-in-out 1s !important",
+    borderRadius: "0 !important",
+    margin: " 9px 20px 0 !important",
+    bottom:"3px !important",
+    "&:hover:after":{
+      background: "linear-gradient(to right, #6372ff 0%, #5ca9fb 100%) !important"
+    },
+    
+  },
 }));
 
-const items= [
+const items = [
   {
     key: "1",
     type: "",
@@ -105,30 +128,51 @@ const items= [
 
 export const Navigation = (props) => {
   const classes = useStyles();
-  const navigate = useNavigate();
   // const data = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const open = Boolean(anchorEl);
+  const [open1, setOpen1] = useState(false);
+  const anchorRef = React.useRef(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleToggle = () => {
+    setOpen1(!open1);
   };
 
+  const handleClose1 = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen1(false);
+  };
+  const handlePopoverClose = () => {
+    setOpen1(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen1(false);
+    } else if (event.key === "Escape") {
+      setOpen1(false);
+    }
+  }
   const handleClose = () => {
     setAnchorEl(null);
     // window.location.href = "/services";
   };
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   navigate("/");
+  // };
   return (
     <>
       <nav
         id="menu"
         className="navbar navbar-default navbar-fixed-top"
-        sx={{ backgroundColor: "blue", color: "white" }}
+        // sx={{ backgroundColor: "blue", color: "white" }}
+        style={{background:"#36312D"}}
       >
         <div className="container">
           <div className="navbar-header">
@@ -160,9 +204,9 @@ export const Navigation = (props) => {
                 </Link>
               </li>
               <li>
-                <a href="#about" className="page-scroll">
+                {/* <a href="#about" className="page-scroll">
                   About
-                </a>
+                </a> */}
               </li>
               <li>
                 {/* <a
@@ -176,7 +220,7 @@ export const Navigation = (props) => {
                     Services
                   </a> */}
                 <Dropdown menu={{ items }}>
-                  <a onClick={(e) => e.preventDefault()} >
+                  <a onClick={(e) => e.preventDefault()}>
                     <Space>Services</Space>
                   </a>
                 </Dropdown>
@@ -189,23 +233,33 @@ export const Navigation = (props) => {
               </li> */}
 
               <li>
-                <a href="#industries" className="page-scroll">
+                {/* <a href="#industries" className="page-scroll">
                   Industries
-                </a>
+                </a> */}
               </li>
               <li>
-                <a href="#testimonials" className="page-scroll">
+                {/* <a href="#testimonials" className="page-scroll">
                   Testimonials
-                </a>
+                </a> */}
               </li>
-              <li>
-                <a href="" className="page-scroll">
+              {/* <li>
+                <Button
+                  className={classes.btn}
+                  ref={anchorRef}
+
+                  id="composition-button"
+                  aria-controls={open1 ? "composition-menu" : undefined}
+                  aria-expanded={open1 ? "true" : undefined}
+                  aria-haspopup="true"
+                  onMouseEnter={handleToggle}
+                  // onMouseLeave={handlePopoverClose}
+                >
                   Who we are
-                </a>
-              </li>
+                </Button>
+              </li> */}
               <li>
-              <Link to={{ pathname: "/signin", state: JsonData }}>
-                 Careers
+                <Link to={{ pathname: "/careers", state: JsonData }}>
+                  Careers
                 </Link>
               </li>
               <li>
@@ -230,7 +284,7 @@ export const Navigation = (props) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        style={{width:"100vw"}}
+        style={{ width: "100vw" }}
       >
         <Grid container spacing={2}></Grid>
         <MenuItem onClick={handleClose}>Testing Services</MenuItem>
@@ -243,6 +297,40 @@ export const Navigation = (props) => {
         <MenuItem onClick={handleClose}>Artificial Intelligence</MenuItem>
         <MenuItem onClick={handleClose}>Power BI services</MenuItem>
       </Menu>
+{/* 
+      <Popper
+        open={open1}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+        style={{ zIndex: 9999,width:"100vw" }}
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === "bottom-start" ? "left top" : "left bottom",
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose1}>
+                <MenuList
+                  autoFocusItem={open}
+                  id="composition-menu"
+                  aria-labelledby="composition-button"
+                  onKeyDown={handleListKeyDown}
+                >
+                  <MenuItem onClick={handleClose1}>Overview</MenuItem>
+                 
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper> */}
     </>
   );
 };

@@ -56,10 +56,7 @@ export default function Navigation() {
                 <Link to={"/dashboard/enquiry"} />
                 Enquiry
               </Menu.Item>
-              <Menu.Item key={"Admin"} icon={<UserOutlined />}>
-                <Link to={"/admin"} />
-                Admin
-              </Menu.Item>
+              
             </>
           ) : (
             <></>

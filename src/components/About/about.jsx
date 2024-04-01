@@ -2,12 +2,12 @@ import React from "react";
 import "./styles.css"
 export const About = (props) => {
   return (
-    <div id="about">
+    <div id="about" >
       <div className="container">
         <div className="row">
-          <div className="col-xs-12 col-md-6">
+          <div className="col-xs-12 col-md-6 image-container">
             {" "}
-            <img src="img/aboutus.jpg" className="img-responsive" alt="" height={"40vh"}/>{" "}
+            <img src="img/aboutus.jpg" className="img-responsive" alt="" height={"40vh"} />{" "}
           </div>
           <div className="col-xs-12 col-md-6">
             <div className="about-text">

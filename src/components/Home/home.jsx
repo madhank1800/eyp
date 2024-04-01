@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../Navbar/header";
-import { Features } from "../Features/features";
+import { Overview } from "../Overview/overview";
 import { About } from "../About/about";
 import  Services  from "../Services/services";
 import { Industries } from "../Industries/industries";
@@ -19,12 +19,12 @@ const Home = () => {
     <>
       <Navigation />
       <Header data={landingPageData.Header} />
-      {/* <Features data={landingPageData.Features} /> */}
+      <Overview data={landingPageData.Overview} />
       <About data={landingPageData.About} />
       <Services data={landingPageData.Services} />
       <Industries data={landingPageData.Industries} />
       <Testimonials data={landingPageData.Testimonials} />
-      <Team data={landingPageData.Team} />
+      {/* <Team data={landingPageData.Team} /> */}
       <Contact data={landingPageData.Contact} />
     </>
   );

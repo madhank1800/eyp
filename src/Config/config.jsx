@@ -9,5 +9,6 @@ export  const  config ={
     uploadDocument:"document/upload",
     getDocsByEmpId:"document/getAll",
     downloadDoc:"document/download",
+    editEmployee:"user/edit-user",
 
 }

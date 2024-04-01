@@ -10,9 +10,10 @@ import PrivateRoute from "./components/Routers/PrivateRoute/privateRoute";
 //import dashboard from "./components/Dashboard/dashboard";
 // import Dashboard from "./components/Dashboard/dashboard";
 import { login } from "./reducers/userReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
+import { updateUser } from "./reducers/userReducer";
 
 //import { AppBar, Toolbar } from "@mui/material";
 export const scroll = new SmoothScroll('a[href*="#"]', {
@@ -24,11 +25,14 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 const Home = lazy(() => import("./components/Home/home"));
 const SignIn = lazy(() => import("./components/SignIn/signin"));
 const Dashboard = lazy(() => import("./components/Dashboard/dashboard"));
+const Careers = lazy(() => import("./Careers"));
+const SignUp = lazy(() => import("./components/signup"));
 const App = () => {
   // const [landingPageData, setLandingPageData] = useState({});
   // const [isAuthenticated, setIsAuthenticated] = useState(
   //   localStorage.getItem("token")
   // );
+  const updateuser=useSelector(state=>state?.auth?.updateUser)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +43,9 @@ const App = () => {
         token: localStorage.getItem("token"),
       })
     );
+    // dispatch(
+    //   updateUser()
+    // );
   });
 
   return (
@@ -52,7 +59,12 @@ const App = () => {
               exact
               render={(props) => <Services {...props} />}
             />
+            <Route
+              path="/careers"
+              exact
+              Component={Careers}    />
             <Route path="/signin" exact element={<SignIn />} />
+            <Route path="/signup" exact element={<SignUp />} />
             <Route
               path="/dashboard/*"
               exact

@@ -25,6 +25,7 @@ const authSlice = createSlice({
     loading: false,
     isAuthenticated: false,
     user: null,
+    updateUser:null,
     allUsers:null,
     error: null,
     token: null,
@@ -43,6 +44,13 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.error = null;
     },
+    updateUser:(state,action)=>{
+      console.log("updateUser",state,"---",action)
+      state.updateUser = action?.payload;
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.error = null;
+    },
     logoutUser: (state) => {
       state.user = null;
       state.isAuthenticated = false;
@@ -57,12 +65,13 @@ const authSlice = createSlice({
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.isAuthenticated = true; // Assuming successful login means isAuthenticated is true
-        state.user = action.payload; // Assuming action.payload contains user data
-        state.error = null; // Reset any previous error
+        state.isAuthenticated = true;
+        state.user = action.payload;
+        state.updateUser = action.payload;
+        state.error = null; 
         state.token = action.payload.token;
 
-        // Additional checks for the response structure or error handling if needed
+      
         if (!action.payload || action.payload.error) {
           state.isAuthenticated = false;
           state.error = "Invalid response from the server";
@@ -85,7 +94,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logoutUser, login } = authSlice.actions;
+export const { logoutUser, login,updateUser } = authSlice.actions;
 export default authSlice.reducer;
 // export const userReducer=(state=intialState,action)=>{
 //     switch (action.type) {

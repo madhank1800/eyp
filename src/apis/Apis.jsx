@@ -45,6 +45,25 @@ const addEmployeeApi = async (data) => {
     throw new Error(error);
   }
 };
+const updateEmployeeApi = async (data) => {
+const {id,...payload}=data
+
+  try {
+    const response = await axios.put(
+      `${config.BASE_URL}${config.editEmployee}/${id}`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 const fetchAllUsersEmployeeIds = async () => {
   try {
     const response = await axios.get(
@@ -168,5 +187,5 @@ export {
   postDocument,
   fetchAllDocumentsBYEmployeeId,
   downloadDocument,
-  deleteEmployee,
+  deleteEmployee,updateEmployeeApi
 };

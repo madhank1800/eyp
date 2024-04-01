@@ -1,6 +1,6 @@
 {
   "Header": {
-    "title": "Eyp Innovations",
+    "title": "digital transformation by offering complete IT consulting and services.",
     "paragraph": "Grow Your Business With Us..."
   },
   "About": {
@@ -11,32 +11,27 @@
       "Agile Approach",
       "End-to-End Services"
     ],
-    "Why2": [
-      "Integrity",
-      "Innovation",
-      "Client-Centric",
-      "Excellence"
-    ]
+    "Why2": ["Integrity", "Innovation", "Client-Centric", "Excellence"]
   },
   "Industries": [
     {
       "title": "Banking",
-     
+
       "smallImage": "img/portfolio/bank.jpg"
     },
     {
       "title": "Ecommerce",
-     
+
       "smallImage": "img/portfolio/01-ecomsmall.jpg"
     },
     {
       "title": "Education",
-     
+
       "smallImage": "img/portfolio/edu.jpg"
     },
     {
       "title": "Automotive",
-     
+
       "smallImage": "img/portfolio/03-small.jpg"
     },
     {
@@ -55,7 +50,6 @@
       "title": "Logistics",
       "smallImage": "img/portfolio/07-small.jpg"
     }
-    
   ],
   "Services": [
     {
@@ -159,33 +153,14 @@
     }
   ],
   "Contact": {
-    "address": "755 avenue Royale, Ottawa,G1R 5B2 ",
+    "address": "100 King Street West, Suite 5700,Toronto ON ,M5X1C7",
     "phone": "+1 418-210-8744",
     "email": "info@eyp.com",
     "facebook": "fb.com",
     "twitter": "twitter.com",
     "youtube": "youtube.com"
   },
-  "Features": [
-    {
-      "icon": "fa fa-comments-o",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
-    },
-    {
-      "icon": "fa fa-bullhorn",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
-    },
-    {
-      "icon": "fa fa-group",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
-    },
-    {
-      "icon": "fa fa-magic",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
-    }
-  ]
+  "Overview": {
+    "paragraph": "At EYP, creativity and inspiration collide, opening up new possibilities and producing amazing results. We are leaders in the use of digital technology, paving the way for multinational corporations to generate enormous value and leave a lasting impression."
+  }
 }
