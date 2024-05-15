@@ -53,13 +53,13 @@ const Documents = () => {
   };
   const handleInputChange = (event, newValue) => {
     const { name, value } = event.target;
-    console.log(name, value, newValue, typeof newValue);
+    // console.log(name, value, newValue, typeof newValue);
     setFormData({ ...formData, ["empId"]: newValue });
   };
 
   const handleFileChange = (event) => {
     const files = event.target.files;
-    console.log(event.target.files);
+    // console.log(event.target.files);
     setFormData({ ...formData, files: [...files] });
   };
 
@@ -67,10 +67,10 @@ const Documents = () => {
     event.preventDefault();
     if (validateForm()) {
       // Form submission logic here
-      console.log("Form submitted:", formData);
+      // console.log("Form submitted:", formData);
       dispatch(uploadDocument(formData))
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res?.meta.requestStatus === "fulfilled") {
             // setLoading(false);
             message.success(res?.payload?.message);

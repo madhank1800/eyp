@@ -42,7 +42,7 @@ const Profile = () => {
   const classes = useStyles();
 
   const currentUser = useSelector((state) => state.auth);
-  console.log(currentUser);
+  // console.log(currentUser);
   const user = currentUser?.user;
   return (
     <>

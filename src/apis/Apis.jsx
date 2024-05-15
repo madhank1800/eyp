@@ -27,7 +27,7 @@ const fetchAllUserApi = async () => {
 };
 
 const addEmployeeApi = async (data) => {
-  console.log("data:", data);
+  // console.log("data:", data);
 
   try {
     const response = await axios.post(
@@ -91,7 +91,7 @@ const fetchAllDocumentsBYEmployeeId = async (id) => {
         },
       }
     );
-    console.log("api", response);
+    // console.log("api", response);
     return response.data;
   } catch (error) {
     throw new Error(error);
@@ -108,7 +108,7 @@ const fetchAllEnquiries = async () => {
         },
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error(error);

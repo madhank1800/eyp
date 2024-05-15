@@ -4,7 +4,7 @@ export const getAllEnquiries = createAsyncThunk(
   "enquiry/getAll",
   async () => {
     const response = await fetchAllEnquiries();
-    console.log(response)
+    // console.log(response)
     return response;
   }
 );
@@ -12,7 +12,7 @@ export const createEnquiry = createAsyncThunk(
   "enquiry/save",
   async (data) => {
     const response = await postEnquiry(data);
-    console.log(response)
+    // console.log(response)
     return response;
   }
 );

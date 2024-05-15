@@ -14,19 +14,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { updateUser } from "./reducers/userReducer";
+import JobDesc from "./JobDesc";
+import { Navigation } from "./components/Navbar/navigation";
 
 //import { AppBar, Toolbar } from "@mui/material";
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
   speedAsDuration: true,
 });
-
 // Lazy load components
 const Home = lazy(() => import("./components/Home/home"));
 const SignIn = lazy(() => import("./components/SignIn/signin"));
 const Dashboard = lazy(() => import("./components/Dashboard/dashboard"));
 const Careers = lazy(() => import("./Careers"));
 const SignUp = lazy(() => import("./components/signup"));
+
 const App = () => {
   // const [landingPageData, setLandingPageData] = useState({});
   // const [isAuthenticated, setIsAuthenticated] = useState(
@@ -52,7 +54,9 @@ const App = () => {
     // <Layout style={{ minHeight: "100vh" }}>
       <Layout>
         <Content>
+        <Navigation/>
           <Routes>
+           
             <Route path="/" exact Component={Home} />
             <Route
               path="/services"
@@ -63,8 +67,10 @@ const App = () => {
               path="/careers"
               exact
               Component={Careers}    />
+               
             <Route path="/signin" exact element={<SignIn />} />
             <Route path="/signup" exact element={<SignUp />} />
+            <Route path="/job/:id" exact   element={<JobDesc/>} /> 
             <Route
               path="/dashboard/*"
               exact
@@ -75,6 +81,7 @@ const App = () => {
                 exact
                 element={<PrivateRoute element={<Employees />} />}
               /> */}
+
             </Route>
           </Routes>
         </Content>

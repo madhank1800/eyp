@@ -21,7 +21,7 @@ export const Header = (props) => {
                   <span className="text-span">Accelerate </span>
                   {props.data?.title}
                 </h1>
-                <p>{props.data ? props.data.paragraph : "Loading"}</p>
+                {/* <p>{props.data ? props.data.paragraph : "Loading"}</p> */}
                 <a
                   href="#"
                   className="btn btn-custom  page-scroll"

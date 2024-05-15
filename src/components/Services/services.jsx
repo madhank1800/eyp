@@ -39,9 +39,9 @@ const Services = (props) => {
         <div className="section-title">
           <h2 style={{ color: "#333" }}>Our Services</h2>
         </div>
-        <div className="row" style={{padding:"13px"}}>
+        <div className="row" >
           {props.data ? (
-            <Slider {...settings}>
+            <Slider {...settings} style={{paddingBottom:"12px"}}>
               {" "}
               {props.data.map((d, i) => (
                 <div key={`${d.name}-${i}`} className="col-md-4">
