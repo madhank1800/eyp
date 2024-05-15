@@ -214,3 +214,10 @@
     scale: 1.15;
     filter: grayscale(0);
   }
+  @media screen and (max-width: 990px) {
+    /* Your CSS styles for screens with a maximum width */
+    .img-responsive{
+margin-top: -175px !important;
+    }
+  }
+  
