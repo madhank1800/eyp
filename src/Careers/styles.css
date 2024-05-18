@@ -5,3 +5,8 @@
 
  
 }
+@media screen and (max-width: 990px) {
+ .txt{
+    font-size: 23px !important;
+ }   
+}

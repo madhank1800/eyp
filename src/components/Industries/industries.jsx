@@ -12,7 +12,7 @@ export const Industries = (props) => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true, // Enable autoplay
+    // autoplay: true, // Enable autoplay
     autoplaySpeed: 2500,
     responsive: [
       {
@@ -45,6 +45,7 @@ export const Industries = (props) => {
                     className="col-sm-6 col-md-4 col-lg-4"
                   >
                     <Image
+                    
                       title={d.title}
                       smallImage={d.smallImage}
                     />

@@ -10,13 +10,7 @@ export const Header = (props) => {
             <div className="row">
               <div className="col-md-6  col-xs-12 intro-text">
                 <h1
-                  style={{
-                    fontSize: "3vw",
-                    lineHeight: 1,
-                    fontWeight: 700,
-                    textAlign: "left",
-                    width: "41vw",
-                  }}
+                 className="headerTitle"
                 >
                   <span className="text-span">Accelerate </span>
                   {props.data?.title}
@@ -24,7 +18,7 @@ export const Header = (props) => {
                 {/* <p>{props.data ? props.data.paragraph : "Loading"}</p> */}
                 <a
                   href="#"
-                  className="btn btn-custom  page-scroll"
+                  className="btn btn-custom  page-scroll btnres"
                   style={{ display: "flex", width: " 200px" }}
                 >
                   Learn More

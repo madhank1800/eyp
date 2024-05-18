@@ -11,7 +11,7 @@ export const Overview = (props) => {
             <p>{props.data ? props.data.paragraph : "loading..."}</p>
           </div>
         </div>
-        <div className="col-xs-12 col-md-6 image-container">
+        <div className="col-xs-12 col-md-6 image-container con">
           {" "}
           <img src="img/overview.jpg" className="img-responsive" alt="" height={"40vh"} />{" "}
         </div>

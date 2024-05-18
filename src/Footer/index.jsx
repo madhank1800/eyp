@@ -1,76 +1,64 @@
-import React from 'react'
+import React from "react";
 
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import XIcon from "@mui/icons-material/X";
 import logo from "../assests/images/eyp03.png";
 
-import {
-    Grid,
-   
-    Typography,
-    Box,
-  
-  } from "@mui/material";
-
+import { Grid, Typography, Box } from "@mui/material";
 
 const Footer = () => {
-
-
-
-    const categories = [
-        {
-          category: "Solutions",
-          services: [
-            "BANKING",
-            "INSURENCE",
-            "RETAIL & CONSUMERS",
-            "HIGH-TECH &MANUFACTURING",
-          ],
-        },
-        {
-          category: "Services",
-          services: [
-            "DIGITAL SERVICES",
-            "MENDIX SERVICES",
-            "MICROSOFT CSP",
-            "PEGA SERVICES",
-            "PRODUCTS",
-          ],
-        },
-        {
-          category: "Company",
-          services: [
-            "HOME",
-            "INSIGHTS",
-            "CAREERS",
-            "TERMS OF SERVICES",
-            "PRIVACY POLICY",
-          ],
-        },
-        {
-          category: "Resources",
-          services: [
-            "CASE STUDIES",
-            "Eyp is a global leader, certified Pega partner, and the fastest growing next-gen advocate of digital transformation through low code solutions",
-          ],
-        },
-      ];
+  const categories = [
+    {
+      category: "Solutions",
+      services: [
+        "BANKING",
+        "INSURENCE",
+        "RETAIL & CONSUMERS",
+        "HIGH-TECH &MANUFACTURING",
+      ],
+    },
+    {
+      category: "Services",
+      services: [
+        "DIGITAL SERVICES",
+        "MENDIX SERVICES",
+        "MICROSOFT CSP",
+        "PEGA SERVICES",
+        "PRODUCTS",
+      ],
+    },
+    {
+      category: "Company",
+      services: [
+        "HOME",
+        "INSIGHTS",
+        "CAREERS",
+        "TERMS OF SERVICES",
+        "PRIVACY POLICY",
+      ],
+    },
+    {
+      category: "Resources",
+      services: [
+        "CASE STUDIES",
+        "Eyp is a global leader, certified Pega partner, and the fastest growing next-gen advocate of digital transformation through low code solutions",
+      ],
+    },
+  ];
   return (
     <>
-     <Grid
+      <Grid
         container
         spacing={2}
         p={5}
         sx={{
           backgroundImage:
             "linear-gradient(to right,rgb(16,137,211) 0% ,rgb(18,177,209) 100%)",
-          height: "450px",
+          height: "auto",
         }}
       >
-
-     
-      <Grid container p={2} mb={5}>
+        <Grid container p={2} mb={5}>
           <Grid
             item
             display="flex"
@@ -114,6 +102,7 @@ const Footer = () => {
                       cursor: "pointer",
                       fontWeight: "700",
                       lineHeight: "25px",
+                      textTransform:"uppercase"
                     }}
                   >
                     {service}
@@ -123,9 +112,9 @@ const Footer = () => {
             </ul>
           </Grid>
         ))}
-         </Grid>
+      </Grid>
     </>
-  )
-}
+  );
+};
 
 export default Footer;

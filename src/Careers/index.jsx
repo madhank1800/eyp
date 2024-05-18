@@ -189,6 +189,7 @@ const Careers = () => {
                 fontWeight: "bold",
                 fontSize: "50px",
               }}
+              className="txt"
             >
               It’s The Right Time to Join
               <br />
@@ -220,7 +221,7 @@ const Careers = () => {
                   {/* Grid container for 3 rows */}
                   <Grid container direction="column" spacing={2}>
                     {/* First Row */}
-                    <Grid item>
+                    <Grid item md={12} xs={12}>
                       <Typography
                         sx={{
                           fontSize: "25px",
@@ -275,10 +276,10 @@ const Careers = () => {
                         </Typography>
                       </Grid>
                       {/* Second Column */}
-                      <Grid item xs={6}>
+                      <Grid item xs={12} md={6}>
                         {/* Two buttons */}
                         <Grid container justifyContent="flex-end">
-                          <Grid item mr={2}>
+                          <Grid item mr={5} xs={4} md={5}>
                             <Link
                               to={`/job/${index}`}
                               style={{ textDecoration: "none" }}
@@ -292,7 +293,7 @@ const Careers = () => {
                               </Button>
                             </Link>
                           </Grid>
-                          <Grid item mb={2}>
+                          <Grid item mb={2}  xs={4} md={4}>
                             <Link
                               to={`/job/${index}`}
                               style={{ textDecoration: "none" }}

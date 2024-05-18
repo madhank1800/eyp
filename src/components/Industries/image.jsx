@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css"
+import "./styles.css";
 export const Image = ({ title, smallImage }) => {
   return (
     <div className="portfolio-item">
