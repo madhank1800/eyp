@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import logo from "../../assests/images/eyp03.png";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,6 +10,17 @@ import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuList from "@mui/material/MenuList";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import SendIcon from "@mui/icons-material/Send";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import StarBorder from "@mui/icons-material/StarBorder";
 //import  { Typography} from "@mui/material";
 import JsonData from "../../data/data.json";
 // import { useSelector } from "react-redux";
@@ -17,6 +28,15 @@ import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import { Dropdown, Space } from "antd";
 import "./styles.css";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
+import Drawer from "@mui/material/Drawer";
+import ListItem from "@mui/material/ListItem";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 const useStyles = makeStyles((theme) => ({
   menuStyle: {
     // backgroundColor: 'blue',
@@ -30,22 +50,92 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     fontFamily: "synthese, sans-serif !important",
     color: "white !important",
-    textTransform:"lowercase !important" ,
+    textTransform: "lowercase !important",
     fontSize: "15px !important",
-    fontWeight:" 400 !important",
+    fontWeight: " 400 !important",
     padding: "8px 2px !important",
     letterSpacing: ".11px !important",
     transition: "transform ease-in-out 1s !important",
     borderRadius: "0 !important",
     margin: " 9px 20px 0 !important",
-    bottom:"3px !important",
-    "&:hover:after":{
-      background: "linear-gradient(to right, #6372ff 0%, #5ca9fb 100%) !important"
+    bottom: "3px !important",
+    "&:hover:after": {
+      background:
+        "linear-gradient(to right, #6372ff 0%, #5ca9fb 100%) !important",
     },
-    
+  },
+  listText: {
+    "& .css-10hburv-MuiTypography-root": {
+      fontFamily: "synthese, sans-serif ",
+      color: "white",
+      fontSize: "15px",
+      fontWeight: 400,
+      padding: "8px 2px",
+      letterSpacing: "0.11px",
+      transition: "transform ease-in-out 1s",
+      borderRadius: "0",
+      // margin: "9px 20px 0",
+      position: "relative",
+    },
+  },
+  navitem: {
+    fontFamily: "synthese, sans-serif ",
+    color: "white",
+    fontSize: "15px",
+    fontWeight: 400,
+    padding: "8px 2px",
+    letterSpacing: "0.11px",
+    transition: "transform ease-in-out 1s",
+    borderRadius: "0",
+    margin: "9px 20px 0",
+    position: "relative", // Add this to enable the :after pseudo-element to be positioned relative to the nav item
+    "&:after": {
+      display: "block",
+      position: "absolute",
+      left: 0,
+      bottom: "-1px",
+      width: 0,
+      height: "2px",
+      background:
+        "linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%)",
+      content: '""', // Proper syntax for the content property
+      transition: "width 0.2s",
+    },
+    "&:hover:after": {
+      width: "100% !important",
+    },
+    "&:hover": {
+      color: "white !important",
+    },
+  },
+  drawer: {
+    "& .css-4t3x6l-MuiPaper-root-MuiDrawer-paper": {
+      background: "#36312d !important",
+    },
   },
 }));
-
+const technologyServicesArr = [
+  "Testing Services",
+  "Data Engineering Services",
+  "Fullstack",
+  "Machine Learning Services",
+  "IT Staffing",
+  "Artificial Intelligence Services",
+  "Power BI Services",
+];
+const engineeringServicesArr = [
+  "Digital Product Engineering",
+  "Web Design and Development",
+  "Business Intelligence",
+  "Machine Learning Services",
+  "Mobile App Development",
+  "Artificial Intelligence Services",
+  "Cloud Computing",
+  "Product Design",
+  "Enterprise Software Development",
+  "DevOps",
+  "Awards and recongnition",
+];
 const items = [
   {
     key: "1",
@@ -61,30 +151,30 @@ const items = [
         label: "Data Engineering Services",
       },
       {
-        key: "1-1",
+        key: "1-3",
         label: "Fullstack",
       },
       {
-        key: "1-2",
+        key: "1-4",
         label: "Machine Learning Services",
       },
       {
-        key: "1-1",
+        key: "1-5",
         label: "IT Staffing",
       },
       {
-        key: "1-2",
+        key: "1-6",
         label: "Artificial Intelligence Services",
       },
       {
-        key: "1-2",
+        key: "1-7",
         label: "Power BI Services",
       },
     ],
   },
   {
     key: "2",
-    label: "Engineering services and featured competencies",
+    label: "Engineering services",
     children: [
       {
         key: "2-1",
@@ -95,31 +185,31 @@ const items = [
         label: "Web Design and Development",
       },
       {
-        key: "2-1",
-        label: "Business Intelligence     ",
+        key: "2-3",
+        label: "Business Intelligence",
       },
       {
-        key: "2-2",
+        key: "2-4",
         label: "Mobile App Development",
       },
       {
-        key: "2-1",
+        key: "2-5",
         label: "Cloud Computing",
       },
       {
-        key: "2-2",
+        key: "2-6",
         label: "Product Design",
       },
       {
-        key: "2-2",
+        key: "2-7",
         label: "Enterprise Software Development",
       },
       {
-        key: "2-2",
+        key: "2-8",
         label: "DevOps",
       },
       {
-        key: "2-2",
+        key: "2-9",
         label: "Awards and recongnition",
       },
     ],
@@ -133,205 +223,206 @@ export const Navigation = (props) => {
   // const token = localStorage.getItem("token");
   const open = Boolean(anchorEl);
   const [open1, setOpen1] = useState(false);
-  const anchorRef = React.useRef(null);
+  const anchorRef = useRef(null);
+  const [mobileMenu, setMobileMenu] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [techMenuOpen, setTechMenuOpen] = useState(false);
+  const [engMenuOpen, setEngMenuOpen] = useState(false);
 
-  const handleToggle = () => {
-    setOpen1(!open1);
-  };
-
-  const handleClose1 = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen1(false);
-  };
-  const handlePopoverClose = () => {
-    setOpen1(false);
-  };
-
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen1(false);
-    } else if (event.key === "Escape") {
-      setOpen1(false);
-    }
-  }
-  const handleClose = () => {
-    setAnchorEl(null);
-    // window.location.href = "/services";
-  };
   // const handleLogout = () => {
   //   localStorage.clear();
   //   navigate("/");
   // };
-  
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    console.log(open)
+    setDrawerOpen(open);
+  };
+
+  const menuItems = [
+    { title: "Home", path: "/" },
+    { title: "Services", path: "/" },
+    { title: "Careers", path: "/careers" },
+    { title: "Sign In", path: "/signin" },
+  ];
+
+  const handleClick = () => {
+    setMobileMenu(!mobileMenu);
+  };
+  const drawer = (
+    <div
+      role="presentation"
+      onKeyDown={toggleDrawer(false)} // Keep this here for keyboard accessibility
+    >
+      <List>
+        {menuItems.map((item, index) => (
+          <ListItem
+            button
+            key={index}
+            onClick={
+              item.title !== "Services" ? toggleDrawer(false) : undefined
+            }
+          >
+            {item.title !== "Services" ? (
+              <Link to={item.path} className={`${classes.navitem} page-scroll`}>
+                {item.title}
+              </Link>
+            ) : (
+              <List>
+                <ListItemButton
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevents the drawer from closing
+                    handleClick();
+                  }}
+                  className={`${classes.listText} page-scroll`}
+                >
+                  <ListItemText primary={item.title} />
+                  {mobileMenu ? (
+                    <ExpandLess style={{ color: "#fff", fontWeight: 400 }} />
+                  ) : (
+                    <ExpandMore style={{ color: "#fff", fontWeight: 400 }} />
+                  )}
+                </ListItemButton>
+                <Collapse in={mobileMenu} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <ListItemButton
+                      sx={{ pl: 4 }}
+                      onClick={() => setTechMenuOpen(!techMenuOpen)}
+                    >
+                      <ListItemText
+                        primary="Technology Services"
+                        style={{ color: "#fff", fontWeight: 400 }}
+                      />
+                      {techMenuOpen ? (
+                        <ExpandLess style={{ color: "#fff" }} />
+                      ) : (
+                        <ExpandMore style={{ color: "#fff" }} />
+                      )}
+                    </ListItemButton>
+                    {/* technology submenu */}
+                    <Collapse in={techMenuOpen} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {technologyServicesArr.map((text, index) => {
+                          // console.log(text);
+                          return (
+                            <>
+                              <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
+                                  primary={text}
+                                  key={index}
+                                  style={{ color: "#fff" }}
+                                />
+                              </ListItemButton>
+                            </>
+                          );
+                        })}
+                      </List>
+                    </Collapse>
+                    <ListItemButton
+                      sx={{ pl: 4 }}
+                      onClick={() => setEngMenuOpen(!engMenuOpen)}
+                    >
+                      <ListItemText
+                        primary="Engineering services"
+                        style={{ color: "#fff", fontWeight: 400 }}
+                      />
+                      {engMenuOpen ? (
+                        <ExpandLess style={{ color: "#fff" }} />
+                      ) : (
+                        <ExpandMore style={{ color: "#fff" }} />
+                      )}
+                    </ListItemButton>
+                    {/* Engineering services */}
+                    <Collapse in={engMenuOpen} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {engineeringServicesArr.map((text, index) => {
+                          // console.log(text);
+                          return (
+                            <>
+                              <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
+                                  primary={text}
+                                  key={index}
+                                  style={{ color: "#fff" }}
+                                />
+                              </ListItemButton>
+                            </>
+                          );
+                        })}
+                      </List>
+                    </Collapse>
+                  </List>
+                </Collapse>
+              </List>
+            )}
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
   return (
     <>
-      <nav
-        id="menu"
-        className="navbar navbar-default navbar-fixed-top"
-        // sx={{ backgroundColor: "blue", color: "white" }}
-        style={{background:"#36312D"}}
+      <AppBar
+        position="static"
+        style={{ background: "#36312d" }}
+        className="menu"
       >
-        <div className="container">
-          <div className="navbar-header">
-            <button
-              type="button"
-              className="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1"
-            >
-              {" "}
-              <span className="sr-only">Toggle navigation</span>{" "}
-              <span className="icon-bar"></span>{" "}
-              <span className="icon-bar"></span>{" "}
-              <span className="icon-bar"></span>{" "}
-            </button>
-
-            <img src={logo} alt="logo" width={70} />
-          </div>
-
-          <div
-            className="collapse navbar-collapse"
-            id="bs-example-navbar-collapse-1"
-          >
-            {/* {token == null ? ( */}
-            <ul className="nav navbar-nav navbar-right">
-              <li>
-                <Link to="/" className="page-scroll">
-                  Home
-                </Link>
-              </li>
-              <li>
-                {/* <a href="#about" className="page-scroll">
-                  About
-                </a> */}
-              </li>
-              <li>
-                {/* <a
-                    className="page-scroll"
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onMouseOver={handleClick}
-                    // onMouseLeave={handleClose}
-                  >
-                    Services
-                  </a> */}
-                <Dropdown menu={{ items }}>
-                  <a onClick={(e) => e.preventDefault()}>
-                    <Space>Services</Space>
-                  </a>
-                </Dropdown>
-              </li>
-
-              {/* <li>
-                <a href="#features" className="page-scroll">
-                  Features
-                </a>
-              </li> */}
-
-              <li>
-                {/* <a href="#industries" className="page-scroll">
-                  Industries
-                </a> */}
-              </li>
-              <li>
-                {/* <a href="#testimonials" className="page-scroll">
-                  Testimonials
-                </a> */}
-              </li>
-              {/* <li>
-                <Button
-                  className={classes.btn}
-                  ref={anchorRef}
-
-                  id="composition-button"
-                  aria-controls={open1 ? "composition-menu" : undefined}
-                  aria-expanded={open1 ? "true" : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={handleToggle}
-                  // onMouseLeave={handlePopoverClose}
-                >
-                  Who we are
-                </Button>
-              </li> */}
-              <li>
-                <Link to={{ pathname: "/careers", state: JsonData }}>
-                  Careers
-                </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to={{ pathname: "/signin", state: JsonData }}>
-                  Sign In
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        className={classes.menuStyle}
-        // open={Boolean(anchorEl)}
-        onClose={handleClose}
-        // onMouseOut={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-        style={{ width: "100vw" }}
-      >
-        <Grid container spacing={2}></Grid>
-        <MenuItem onClick={handleClose}>Testing Services</MenuItem>
-        <MenuItem onClick={handleClose}>Azure Services</MenuItem>
-        <MenuItem onClick={handleClose}>Data Engineering Services</MenuItem>
-        <MenuItem onClick={handleClose}>Full Stack</MenuItem>
-        <MenuItem onClick={handleClose}>Devops Services</MenuItem>
-        <MenuItem onClick={handleClose}>Machine Learning Services</MenuItem>
-        <MenuItem onClick={handleClose}>IT Staffing</MenuItem>
-        <MenuItem onClick={handleClose}>Artificial Intelligence</MenuItem>
-        <MenuItem onClick={handleClose}>Power BI services</MenuItem>
-      </Menu>
-{/* 
-      <Popper
-        open={open1}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        placement="bottom-start"
-        transition
-        disablePortal
-        style={{ zIndex: 9999,width:"100vw" }}
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom-start" ? "left top" : "left bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose1}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
-                >
-                  <MenuItem onClick={handleClose1}>Overview</MenuItem>
-                 
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper> */}
+        <Toolbar>
+          <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <img src={logo} alt="logo" width={70} style={{ margin: "16px" }} />
+          </Typography>
+          {isMobile ? (
+            <>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+              >
+                <MenuIcon style={{ width: "38px", height: "60px" }} />
+              </IconButton>
+              <Drawer
+                anchor="left"
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
+                className={classes.drawer}
+              >
+                {drawer}
+              </Drawer>
+            </>
+          ) : (
+            menuItems.map((item, index) => (
+              <Link
+                key={index}
+                to={item.path}
+                className={`${classes.navitem} page-scroll`}
+              >
+                {item.title !== "Services" ? (
+                  item.title
+                ) : (
+                  <Dropdown menu={{ items }}>
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      style={{ color: "#fff" }}
+                    >
+                      {item.title}
+                    </a>
+                  </Dropdown>
+                )}
+              </Link>
+            ))
+          )}
+        </Toolbar>
+      </AppBar>
     </>
   );
 };

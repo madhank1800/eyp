@@ -1,6 +1,6 @@
 /* Navigation */
 #menu {
-  padding: 15px;
+  padding: 15px !important;
   transition: all 0.8s;
 }
 #menu.navbar-default {
@@ -216,7 +216,13 @@ header .intro-text {
   background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
 }
-
+.i{
+  width: 520px;
+  background: #fff;
+  border-radius: 10px;
+  border-right: 0;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.06);
+}
 #header img {
   width: 520px;
   margin-top: 160px;
@@ -244,12 +250,15 @@ header .intro-text {
   width: 41vw;
 }
 @media screen and (max-width: 990px) {
+  header .intro-text {
+    padding-top: 25px;
+  }
   /* Your CSS styles for screens with a maximum width */
-  .img-responsive {
+  .img-responsive1 {
     margin-top: -175px !important;
   }
   .btnres {
-    width: 45% !important;
+    width: 60% !important;
     font-size: 11px !important;
     margin-left: 21%;
   }

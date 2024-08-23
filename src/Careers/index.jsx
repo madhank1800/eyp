@@ -105,7 +105,7 @@ const Careers = () => {
       {/* <Navigation /> */}
 
       <div className="careerBg">
-        <Grid container spacing={2} mt={10} sx={{ backgroundColor: "#151518" }}>
+        <Grid container spacing={2}  sx={{ backgroundColor: "#151518" }}>
           {/* Heading Row */}
           <Grid item xs={12} mt={10}>
             <Typography

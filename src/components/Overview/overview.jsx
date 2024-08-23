@@ -13,7 +13,7 @@ export const Overview = (props) => {
         </div>
         <div className="col-xs-12 col-md-6 image-container con">
           {" "}
-          <img src="img/overview.jpg" className="img-responsive" alt="" height={"40vh"} />{" "}
+          <img src="img/overview.jpg" className=" img-responsive img-responsive1" alt="" height={"40vh"} />{" "}
         </div>
      
       </div>

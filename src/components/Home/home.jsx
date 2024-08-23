@@ -17,7 +17,7 @@ const Home = () => {
   }, []);
   return (
     <>
-      <Navigation />
+      {/* <Navigation /> */}
       <Header data={landingPageData.Header} />
       <Overview data={landingPageData.Overview} />
       <About data={landingPageData.About} />

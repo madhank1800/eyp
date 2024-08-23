@@ -3,7 +3,7 @@ import  Services  from "./components/Services/services";
 import SmoothScroll from "smooth-scroll";
 import "./App.css";
 // import { Services } from "./components/services";
-import {  Route, Routes } from "react-router-dom";
+import {  Route, Routes,useLocation } from "react-router-dom";
 // import SignIn from "./components/SignIn/signin";
 // import Home from "./components/Home/home";
 import PrivateRoute from "./components/Routers/PrivateRoute/privateRoute";
@@ -36,7 +36,7 @@ const App = () => {
   // );
   const updateuser=useSelector(state=>state?.auth?.updateUser)
   const dispatch = useDispatch();
-
+  const location = useLocation()
   useEffect(() => {
     // setLandingPageData(JsonData);
     dispatch(
@@ -49,14 +49,14 @@ const App = () => {
     //   updateUser()
     // );
   });
-
+  const shouldShowNavigation = !location.pathname.startsWith("/dashboard");
   return (
     // <Layout style={{ minHeight: "100vh" }}>
       <Layout>
         <Content>
-        <Navigation/>
+        {shouldShowNavigation && <Navigation />}
+       
           <Routes>
-           
             <Route path="/" exact Component={Home} />
             <Route
               path="/services"
