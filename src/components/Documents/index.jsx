@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { message } from "antd";
-import { Grid } from "@mui/material";
+import { Grid,Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEmployeeIds } from "../../reducers/employeeReducer";
 // import { Form, Select } from "antd";
@@ -119,17 +119,16 @@ const Documents = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2} padding={10}>
-          <Grid item xs={12} md={6}>
+      {/* <form onSubmit={handleSubmit}>
+        <Grid container spacing={2} pl={2}>
+          <Grid item xs={6} md={6}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={12}>
                 <FormControl fullWidth>
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
                     onChange={handleInputChange}
-                    // getOptionLabel={getOptionlabel}
                     name="empId"
                     options={empIds}
                     error={!!errors.selectedOption}
@@ -145,40 +144,14 @@ const Documents = () => {
                     </FormHelperText>
                   )}
                 </FormControl>
-                {/* <FormControl fullWidth>
-                  <InputLabel id="selected-option-label">
-                    Select Option
-                  </InputLabel>
-                  <Select
-                    labelId="selected-option-label"
-                    id="selected-option"
-                    name="empId"
-                    value={formData.selectedOption}
-                    onChange={handleInputChange}
-                    label="Select Option"
-                    size="medium"
-                    error={!!errors.selectedOption}
-                  >
-                    {empIds.map((option, index) => (
-                      <MenuItem key={index} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {errors.selectedOption && (
-                    <FormHelperText error>
-                      {errors.selectedOption}
-                    </FormHelperText>
-                  )}
-                </FormControl> */}
+                
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={12}>
                 <input
                   accept=".pdf,.doc,.docx"
                   style={{ display: "none" }}
                   id="upload-files"
                   name="file"
-                  // multiple
                   type="file"
                   onChange={handleFileChange}
                 />
@@ -197,18 +170,7 @@ const Documents = () => {
                 )}
               </Grid>
               <Grid item xs={6}>
-                {/* {formData?.files && (
-              <>
-                <AttachFileIcon />
-                {formData?.files[0].name}
-                <IconButton
-                  // onClick={() => handleDelete(index)}
-                  color="warning"
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </>
-            )} */}
+                
                 {formData?.files?.map((file, index) => (
                   <div key={index} style={{display:"flex",background: "#fff",
                   borderRadius: "10px",
@@ -224,13 +186,12 @@ const Documents = () => {
                   </div>
                 ))}
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={12}>
                 <Button
                   variant="contained"
                   color="primary"
                   type="submit"
                   className={classes.btn}
-                  // disabled={!isFormValid}
                 >
                   Submit
                 </Button>
@@ -248,18 +209,109 @@ const Documents = () => {
             />
           </Grid>
         </Grid>
-      </form>
-      {/* 
-      <div>
-      <Input
-        type="file"
-        inputProps={{ accept: 'application/pdf' }} // Limit file type to PDF
-        onChange={handleFileChange}
-      />
-      <Button onClick={handleUpload} variant="contained" color="primary" disabled={!selectedFile}>
-        Upload
-      </Button> */}
-      {/* </div> */}
+      </form> */}
+      <form onSubmit={handleSubmit}>
+      <Grid container spacing={2} pl={2}>
+        {/* Left side with form fields */}
+        <Grid item xs={12} md={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  onChange={handleInputChange}
+                  name="empId"
+                  options={empIds}
+                  error={!!errors.selectedOption}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Select EmployeeId" />
+                  )}
+                />
+                {errors.selectedOption && (
+                  <FormHelperText error>
+                    {errors.selectedOption}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+
+            {/* File upload section */}
+            <Grid item xs={12}>
+              <input
+                accept=".pdf,.doc,.docx"
+                style={{ display: "none" }}
+                id="upload-files"
+                name="file"
+                type="file"
+                onChange={handleFileChange}
+              />
+              <label htmlFor="upload-files">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  startIcon={<CloudUploadIcon />}
+                  sx={{ width: { xs: "100%", md: "23.5vw" } }} // Adjust width for responsiveness
+                >
+                  Upload Files
+                </Button>
+              </label>
+              {errors.files && (
+                <FormHelperText error>{errors.files}</FormHelperText>
+              )}
+            </Grid>
+
+            {/* Uploaded file display */}
+            <Grid item xs={12}>
+              {formData?.files?.map((file, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    background: "#fff",
+                    borderRadius: "10px",
+                    boxShadow: "0px 0px 2px 1px #12B1D2",
+                    width: { xs: "100%", md: "23.5vw" }, // Responsive width
+                    mb: 1, // Margin between file items
+                  }}
+                >
+                  <AttachFileIcon sx={{ m: 1 }} />
+                  <Box sx={{ flexGrow: 1, mt: 1 }}>{file.name}</Box>
+                  <IconButton onClick={() => handleDelete(index)} color="secondary">
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+            </Grid>
+
+            {/* Submit button */}
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ width: "100%" }} // Full width for mobile
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Right side with image */}
+        <Grid item xs={12} md={6}>
+          <img
+            src={documentLogo}
+            alt="Document Logo"
+            width="100%" // Responsive width for image
+            style={{
+              boxShadow: "0px 0px 20px 3px rgba(150, 190, 238, 0.15)",
+              borderRadius: "40px",
+            }}
+          />
+        </Grid>
+      </Grid>
+    </form>
     </>
   );
 };

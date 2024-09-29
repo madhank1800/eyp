@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listText: {
-    "& .css-10hburv-MuiTypography-root": {
+    "& [class*='-MuiTypography-root']": {
       fontFamily: "synthese, sans-serif ",
       color: "white",
       fontSize: "15px",
@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
       position: "relative",
     },
   },
+
   navitem: {
     fontFamily: "synthese, sans-serif ",
     color: "white",
@@ -108,10 +109,15 @@ const useStyles = makeStyles((theme) => ({
       color: "white !important",
     },
   },
-  drawer: {
-    "& .css-4t3x6l-MuiPaper-root-MuiDrawer-paper": {
-      background: "#36312d !important",
-    },
+ 
+  // drawerBg: {
+  //   "& .MuiPaper-root": {
+  //     backgroundColor: "#36312d", // Replace with your desired background color
+  //   },
+  // },
+  drawerBg1: {
+    backgroundColor: "#36312d !important",
+    
   },
 }));
 const technologyServicesArr = [
@@ -282,7 +288,7 @@ export const Navigation = (props) => {
                     e.stopPropagation(); // Prevents the drawer from closing
                     handleClick();
                   }}
-                  className={`${classes.listText} page-scroll`}
+                  className={`${classes.listText}`}
                 >
                   <ListItemText primary={item.title} />
                   {mobileMenu ? (
@@ -394,7 +400,8 @@ export const Navigation = (props) => {
                 anchor="left"
                 open={drawerOpen}
                 onClose={toggleDrawer(false)}
-                className={classes.drawer}
+                // className={classes.drawerBg}
+                classes={{paper:classes.drawerBg1}}
               >
                 {drawer}
               </Drawer>
