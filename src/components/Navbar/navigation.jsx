@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   listText: {
     "& [class*='-MuiTypography-root']": {
       fontFamily: "synthese, sans-serif ",
-      color: "white",
+      color: "#ffff !important",
       fontSize: "15px",
       fontWeight: 400,
       padding: "8px 2px",
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
 
   navitem: {
     fontFamily: "synthese, sans-serif ",
-    color: "white",
+    color: "#ffff !important",
     fontSize: "15px",
     fontWeight: 400,
     padding: "8px 2px",
@@ -266,26 +266,25 @@ export const Navigation = (props) => {
   const drawer = (
     <div
       role="presentation"
-      onKeyDown={toggleDrawer(false)} // Keep this here for keyboard accessibility
+      onKeyDown={() => toggleDrawer(false)} 
+      onClick={() => toggleDrawer(false)} 
     >
       <List>
         {menuItems.map((item, index) => (
           <ListItem
             button
             key={index}
-            onClick={
-              item.title !== "Services" ? toggleDrawer(false) : undefined
-            }
+            onClick={item.title !== "Services" ? () => toggleDrawer(false) : undefined}
           >
             {item.title !== "Services" ? (
-              <Link to={item.path} className={`${classes.navitem} page-scroll`}>
+              <Link to={item.path} className={`${classes.navitem}`}>
                 {item.title}
               </Link>
             ) : (
               <List>
                 <ListItemButton
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevents the drawer from closing
+                    e.stopPropagation(); 
                     handleClick();
                   }}
                   className={`${classes.listText}`}
@@ -297,8 +296,10 @@ export const Navigation = (props) => {
                     <ExpandMore style={{ color: "#fff", fontWeight: 400 }} />
                   )}
                 </ListItemButton>
+  
                 <Collapse in={mobileMenu} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
+                    {/* Technology Services Submenu */}
                     <ListItemButton
                       sx={{ pl: 4 }}
                       onClick={() => setTechMenuOpen(!techMenuOpen)}
@@ -313,31 +314,27 @@ export const Navigation = (props) => {
                         <ExpandMore style={{ color: "#fff" }} />
                       )}
                     </ListItemButton>
-                    {/* technology submenu */}
+  
                     <Collapse in={techMenuOpen} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
-                        {technologyServicesArr.map((text, index) => {
-                          // console.log(text);
-                          return (
-                            <>
-                              <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                  primary={text}
-                                  key={index}
-                                  style={{ color: "#fff" }}
-                                />
-                              </ListItemButton>
-                            </>
-                          );
-                        })}
+                        {technologyServicesArr.map((text, idx) => (
+                          <ListItemButton sx={{ pl: 8 }} key={idx}>
+                            <ListItemText
+                              primary={text}
+                              style={{ color: "#fff" }}
+                            />
+                          </ListItemButton>
+                        ))}
                       </List>
                     </Collapse>
+  
+                    {/* Engineering Services Submenu */}
                     <ListItemButton
                       sx={{ pl: 4 }}
                       onClick={() => setEngMenuOpen(!engMenuOpen)}
                     >
                       <ListItemText
-                        primary="Engineering services"
+                        primary="Engineering Services"
                         style={{ color: "#fff", fontWeight: 400 }}
                       />
                       {engMenuOpen ? (
@@ -346,23 +343,17 @@ export const Navigation = (props) => {
                         <ExpandMore style={{ color: "#fff" }} />
                       )}
                     </ListItemButton>
-                    {/* Engineering services */}
+  
                     <Collapse in={engMenuOpen} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
-                        {engineeringServicesArr.map((text, index) => {
-                          // console.log(text);
-                          return (
-                            <>
-                              <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                  primary={text}
-                                  key={index}
-                                  style={{ color: "#fff" }}
-                                />
-                              </ListItemButton>
-                            </>
-                          );
-                        })}
+                        {engineeringServicesArr.map((text, idx) => (
+                          <ListItemButton sx={{ pl: 8 }} key={idx}>
+                            <ListItemText
+                              primary={text}
+                              style={{ color: "#fff" }}
+                            />
+                          </ListItemButton>
+                        ))}
                       </List>
                     </Collapse>
                   </List>
@@ -374,6 +365,7 @@ export const Navigation = (props) => {
       </List>
     </div>
   );
+  
 
   return (
     <>
